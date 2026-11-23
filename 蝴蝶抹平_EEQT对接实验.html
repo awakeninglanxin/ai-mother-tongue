@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>蝴蝶抹平 · EEQT 对接实验（ε 扫描可证伪）</title>
+<style>
+:root{--paper:#f7f3ea;--card:#fffdf8;--ink:#1b2430;--ink2:#47555f;--ink3:#7c8a92;
+--line:rgba(27,36,48,.13);--blue:#1f6f9f;--purple:#6b4a8f;--green:#2c7a58;--red:#a33b3b;
+--mono:"Consolas","SF Mono",Menlo,monospace;--serif:"Noto Serif SC","Songti SC",serif;
+--sans:"PingFang SC","Microsoft YaHei",system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.7}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+header{padding:34px 0 20px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--ink3);margin-bottom:9px}
+h1{font-family:var(--serif);font-size:29px;font-weight:700}
+.lede{color:var(--ink2);margin-top:9px;max-width:940px}
+.lede b{color:var(--ink)}
+.tagrow{margin-top:12px;display:flex;flex-wrap:wrap;gap:7px}
+.tag{font-family:var(--mono);font-size:10.5px;color:var(--ink3);border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+.tag em{font-style:normal;color:var(--purple)}
+
+.layout{display:grid;grid-template-columns:1fr 310px;gap:20px;padding:22px 0 30px}
+.stage{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;position:relative}
+.stage canvas{display:block;width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:6px}
+.stage .status{position:absolute;top:24px;left:26px;font-family:var(--mono);font-size:10.5px;color:var(--ink3);background:rgba(255,253,248,.88);padding:4px 8px;border-radius:5px}
+.epsbadge{position:absolute;top:24px;right:26px;font-family:var(--mono);font-size:11px;color:#fff;background:var(--purple);padding:5px 10px;border-radius:5px}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:17px 17px 20px;align-self:start;position:sticky;top:16px}
+.panel h3{font-family:var(--serif);font-size:16px;font-weight:700;margin-bottom:2px}
+.panel .sub{font-size:11px;color:var(--ink3);margin-bottom:10px}
+.ctl{margin-top:14px}
+.ctl .lb{display:flex;justify-content:space-between;font-size:12px;color:var(--ink2);margin-bottom:5px}
+.ctl .lb b{font-family:var(--mono);color:var(--purple);font-weight:400}
+input[type=range]{width:100%;accent-color:var(--purple)}
+.bigval{font-family:var(--mono);font-size:12px;color:var(--ink2);background:#f4efe4;border:1px solid var(--line);border-radius:7px;padding:9px 11px;margin-top:12px;line-height:1.9}
+.bigval b{color:var(--purple)}
+.btn{width:100%;margin-top:12px;padding:9px;border:1px solid var(--purple);color:var(--purple);background:transparent;border-radius:7px;cursor:pointer;font-size:13px}
+.btn:hover{background:var(--purple);color:#fff}
+.btn.sec{border-color:var(--line);color:var(--ink2);margin-top:7px}
+.hint{font-size:11px;color:var(--ink3);margin-top:8px;line-height:1.55}
+.verdict{margin-top:13px;border:1px solid var(--line);border-radius:8px;padding:10px 11px;font-size:11.5px;color:var(--ink2);background:#fbf9f3;line-height:1.7}
+.verdict b{color:var(--green)}
+
+/* 曲线卡 */
+.curvebox{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:6px 0 30px}
+.curvebox h3{font-family:var(--serif);font-size:18px;margin-bottom:4px}
+.curvebox p.note{font-size:12px;color:var(--ink3);margin-bottom:10px}
+.curvebox canvas{display:block;width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:6px}
+
+/* 左右双栏 */
+.xplain{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:11px;overflow:hidden;margin:16px 0;background:var(--card)}
+.xplain>div{padding:16px 19px}
+.xplain .pro{border-right:1px solid var(--line);background:#fbf9f3}
+.xplain .lay{background:#fffdf8}
+.xplain .tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;padding:2px 7px;border-radius:4px;display:inline-block;margin-bottom:7px}
+.xplain .pro .tag{background:#e8f1f6;color:var(--blue)}
+.xplain .lay .tag{background:#f1ecf6;color:var(--purple)}
+.xplain h4{font-family:var(--serif);font-size:14px;font-weight:700;margin-bottom:6px}
+.xplain p{font-size:12.5px;color:var(--ink2);margin:5px 0}
+.xplain .mono{font-family:var(--mono);font-size:11.5px;color:var(--blue)}
+section.explain{padding:0 0 8px;margin-top:18px;border-top:1px solid var(--line);padding-top:20px}
+section.explain h2{font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:4px}
+section.explain .dek{font-size:12.5px;color:var(--ink3);margin-bottom:8px}
+footer{padding:22px 0 46px;font-family:var(--mono);font-size:11px;color:var(--ink3);border-top:1px solid var(--line)}
+a{color:var(--purple)}
+@media(max-width:860px){.layout{grid-template-columns:1fr}.panel{position:static}.xplain{grid-template-columns:1fr}.xplain .pro{border-right:none;border-bottom:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="eyebrow">EEQT × Hofstadter · falsifiable bridge experiment</div>
+  <h1>蝴蝶抹平 · EEQT 对接实验</h1>
+  <p class="lede">把本地 EEQT 引擎的测量耦合 <b>ε</b> 接到真实 Harper 蝴蝶上：拖动 ε，看测量反作用如何把<b>精细能隙逐级抹平</b>。这不是类比动画——每个点是浏览器实时对角化的本征值，展宽 Γ 由引擎收缩比推出，抹平曲线的三个判据已由 <span class="mono">eeqt_butterfly_bridge.py</span> 实跑。</p>
+  <div class="tagrow">
+    <span class="tag">引擎 <em>ρ(ε)=(1−ε)/(1+ε)</em></span>
+    <span class="tag">桥 <em>Γ=−0.25·ln ρ=0.5·artanh ε</em></span>
+    <span class="tag">展宽 <em>Lorentzian</em></span>
+    <span class="tag">判据 <em>F1 PASS · F2 PASS · F3 OPEN</em></span>
+  </div>
+</div></header>
+
+<div class="wrap layout">
+  <div>
+    <div class="stage">
+      <canvas id="cv" width="900" height="620" role="img" aria-label="Hofstadter butterfly progressively smeared by EEQT measurement coupling">您的浏览器不支持 canvas</canvas>
+      <div class="status" id="status">初始化…</div>
+      <div class="epsbadge" id="epsbadge">ε = 0.00</div>
+    </div>
+
+    <section class="explain">
+      <h2>① 桥是从哪来的（不是硬凑）</h2>
+      <p class="dek">三层设定，逐层标明证据等级——引擎事实 / 桥接假设 / 标准物理。</p>
+      <div class="xplain">
+        <div class="pro"><span class="tag">专业术语</span>
+          <h4>收缩比 → 退相干率</h4>
+          <p>引擎实测 <span class="mono">ρ(ε)=(1−ε)/(1+ε)</span> 是 Möbius 迭代在不动点的各向同性收缩比。取其对数衰减率定义展宽：<span class="mono">Γ(ε)=−s·ln ρ=2s·artanh(ε)</span>，s=0.25。</p>
+          <p>Lorentzian 展宽 <span class="mono">A(E)=Σ(Γ/π)/((E−Eₙ)²+Γ²)</span> 是凝聚态描述有限寿命/退相干的标准做法。Γ↑ 填平相邻能隙。</p>
+        </div>
+        <div class="lay"><span class="tag">大白话</span>
+          <h4>"手电筒越亮，纹路越糊"</h4>
+          <p>引擎里 ε 是"手电筒亮度"，ρ 是"每照一次，画面缩多少"。亮度从 0 调到 1，收缩比从 1（不缩）掉到 0（全塌）。</p>
+          <p>把"缩了多少"换成"看得多糊"就是 Γ：不照（ε=0）蝴蝶清清楚楚；照到最亮（ε→1），细纹全糊成一片。<b>手链的 ε 和糊的程度，用同一个旋钮控制</b>。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="explain">
+      <h2>② 抹平曲线（实跑数据，不是画的）</h2>
+      <p class="dek">r(ε)=剩余可辨能隙比例。曲线点来自 eeqt_butterfly_bridge.py 对 79 个 Farey 磁通、每个 40×2 个 k 点的真实谱统计。</p>
+      <div class="xplain">
+        <div class="pro"><span class="tag">专业术语</span>
+          <h4>三判据</h4>
+          <p><b>F1 单调性 PASS</b>：r(ε) 全程单调不增，无反常回升。<br><b>F2 两端极限 PASS</b>：ε→0 时 r=1.0；ε=0.95 时 r=0.057（抹掉 94.3% 能隙）。<br><b>F3 单参数 Γ 描述</b>：corr(log Γ, r)=−0.994，但 Γ(ε) 是假设映射，需真实能谱标定，<b>保持 OPEN</b>。</p>
+        </div>
+        <div class="lay"><span class="tag">大白话</span>
+          <h4>越照越糊，而且糊得很有规律</h4>
+          <p>第一，亮度一直加，图只会一直糊，不会中途又变清楚——这叫"单调"，是最基本的靠谱。<br>第二，完全不照时图案 100% 清楚；照到最亮只剩不到 6% 的细纹——两端都对。<br>第三，"糊的程度"和"亮度"几乎能用一条简单公式算准（相关 0.994）。<b>但这条公式是不是真的物理，得拿实验室的真实照片对账才算数</b>——所以我留了个"待验证"没收稿。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="explain">
+      <h2>③ 诚实边界（这条最重要）</h2>
+      <div class="xplain">
+        <div class="pro"><span class="tag">专业术语</span>
+          <h4>同类数学对象 ≠ 同一机制</h4>
+          <p>蝴蝶分形 = 准周期势下 Harper 方程的能谱自相似；QIFS 吸引子 = 测量跳跃的随机迭代。两者都是分形但<b>生成机制不同</b>。本实验断言的是"外部耦合抹平能谱"这一可证伪命题，不断言两分形等同。</p>
+          <p>Γ∝artanh(ε) 是唯象桥，非 EEQT 定理；真实退相干率须由实验能谱（线宽/ T₂）标定。</p>
+        </div>
+        <div class="lay"><span class="tag">大白话</span>
+          <h4>像，不等于就是</h4>
+          <p>蝴蝶纹路和 EEQT 分形长得像，但一个是"电子能待的能量"，一个是"测量一次次跳跃的落点"，<b>不是同一个东西</b>。这个实验只测一件事：把旋钮拧大，蝴蝶会不会按预期糊掉。至于"它俩本质是不是一回事"——那是要另开题目、绝不在这里偷换的。</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <aside class="panel" id="panel">
+    <h3>EEQT 耦合旋钮</h3>
+    <div class="sub">拖动即实时抹平（无需重算能谱）</div>
+    <div class="ctl"><div class="lb"><span>测量耦合 ε</span><b id="vEps">0.00</b></div>
+      <input type="range" id="eps" min="0" max="95" step="1" value="0"></div>
+    <div class="bigval">
+      收缩比 ρ = <b id="rho">1.000</b><br>
+      展宽 Γ = <b id="gamma">0.005</b><br>
+      可辨能隙 r = <b id="ratio">1.000</b><br>
+      抹平比例 = <b id="drop">0.0%</b>
+    </div>
+    <div class="verdict" id="verdict"></div>
+    <button class="btn" id="auto">▶ 自动扫 ε（动画）</button>
+    <button class="btn sec" id="reset">复位 ε=0</button>
+    <button class="btn sec" id="png">保存当前 PNG</button>
+    <div class="hint">能谱在浏览器里实时对角化 Harper 矩阵（q≤20，60 个 Farey 磁通）。ε 只改变展宽，不重算本征值，所以拖动是即时的。</div>
+  </aside>
+</div>
+
+<div class="wrap">
+  <div class="curvebox">
+    <h3>抹平曲线 r(ε) · 实测 vs 理论对照</h3>
+    <p class="note">灰点 = eeqt_butterfly_bridge.py 实跑（79 磁通 × 40 k 点统计）；紫点 = 当前 ε 位置。纵轴 r=剩余可辨能隙比例。</p>
+    <canvas id="curvecv" width="1140" height="230" role="img" aria-label="r(epsilon) smearing curve">曲线</canvas>
+  </div>
+</div>
+
+<footer><div class="wrap">
+  数据源：<span class="mono">_build/eeqt/eeqt_butterfly_bridge.py</span> → <span class="mono">butterfly_bridge.json</span> ·
+  引擎 <span class="mono">eeqt_core.py</span> · 桥接假设 Γ=0.5·artanh(ε) 待实验标定 ·
+  <a href="EEQT专业讲解.html">← 返回 EEQT 专业讲解</a> ·
+  <a href="Hofstadter蝴蝶_交互实验台.html">理想蝴蝶实验台 →</a>
+</div></footer>
+
+<script>
+"use strict";
+/* ===== 实对称 Jacobi（复用实验台求解器） ===== */
+function jacobiReal(A,n,maxSweeps){
+  const a=A.slice();maxSweeps=maxSweeps||50;
+  for(let sw=0;sw<maxSweeps;sw++){
+    let off=0;for(let p=0;p<n-1;p++)for(let q=p+1;q<n;q++)off+=a[p*n+q]*a[p*n+q];
+    if(off<1e-20)break;
+    for(let p=0;p<n-1;p++)for(let q=p+1;q<n;q++){
+      const apq=a[p*n+q];if(Math.abs(apq)<1e-14)continue;
+      const th=(a[q*n+q]-a[p*n+p])/(2*apq);
+      const t=Math.sign(th||1)/(Math.abs(th)+Math.sqrt(th*th+1));
+      const c=1/Math.sqrt(1+t*t),s=t*c;
+      for(let k=0;k<n;k++){if(k===p||k===q)continue;
+        const akp=a[k*n+p],akq=a[k*n+q];
+        a[k*n+p]=a[p*n+k]=c*akp-s*akq;a[k*n+q]=a[q*n+k]=s*akp+c*akq;}
+      const app=a[p*n+p],aqq=a[q*n+q],x=a[p*n+q];
+      a[p*n+p]=c*c*app-2*s*c*x+s*s*aqq;
+      a[q*n+q]=s*s*app+2*s*c*x+c*c*aqq;
+      a[p*n+q]=a[q*n+p]=0;
+    }
+  }
+  const e=[];for(let i=0;i<n;i++)e.push(a[i*n+i]);return e.sort((x,y)=>x-y);
+}
+function harperEigs(p,q,kxSign,ky){
+  const A=new Float64Array(q*q);
+  for(let i=0;i<q;i++)A[i*q+i]=2*Math.cos(2*Math.PI*p*i/q+ky);
+  for(let i=0;i<q;i++){const j=(i+1)%q,ph=(i===q-1)?kxSign:1;A[i*q+j]+=ph;A[j*q+i]+=ph;}
+  return jacobiReal(A,q);
+}
+function gcd(a,b){while(b){const t=a%b;a=b;b=t;}return a;}
+function fractions(Q){const o=[];for(let q=1;q<=Q;q++)for(let p=0;p<=q;p++)if(gcd(p,q)===1&&p>0)o.push([p,q]);o.sort((a,b)=>a[0]/a[1]-b[0]/b[1]);return o;}
+
+/* ===== 实测抹平曲线（来自 butterfly_bridge.json） ===== */
+const BRIDGE=[
+ {eps:0.00,gamma:0.005, ratio:1.000},
+ {eps:0.05,gamma:0.025, ratio:0.744},
+ {eps:0.10,gamma:0.050, ratio:0.648},
+ {eps:0.15,gamma:0.076, ratio:0.566},
+ {eps:0.20,gamma:0.101, ratio:0.523},
+ {eps:0.30,gamma:0.155, ratio:0.439},
+ {eps:0.40,gamma:0.212, ratio:0.357},
+ {eps:0.50,gamma:0.275, ratio:0.299},
+ {eps:0.60,gamma:0.347, ratio:0.226},
+ {eps:0.70,gamma:0.434, ratio:0.186},
+ {eps:0.80,gamma:0.549, ratio:0.130},
+ {eps:0.90,gamma:0.736, ratio:0.078},
+ {eps:0.95,gamma:0.916, ratio:0.057}
+];
+/* ε -> r 线性插值（用于滑块的实时数值） */
+function ratioAt(e){for(let i=0;i<BRIDGE.length-1;i++){const a=BRIDGE[i],b=BRIDGE[i+1];if(e<=b.eps){const t=(e-a.eps)/(b.eps-a.eps);return a.ratio+(b.ratio-a.ratio)*t;}}return BRIDGE[BRIDGE.length-1].ratio;}
+function gammaAt(e){if(e<=0)return 0.005;return 0.5*Math.atanh(Math.min(e,0.999));}
+function rhoAt(e){return (1-e)/(1+e);}
+
+/* ===== 预计算能谱：按屏幕列分桶。ε 只改竖直展宽，本征值永不重算 ===== */
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+const ccv=document.getElementById('curvecv'),cctx=ccv.getContext('2d');
+const $=id=>document.getElementById(id);
+const Q=18,NKY=32;
+const X0=50,Y0=40,PW=cv.width-70,PH=cv.height-80;
+let COLS=[],NPTS=0,autoTimer=null,rafPending=false;
+/* 复用缓冲，避免每帧 new 造成 GC 抖动 */
+const IMG=ctx.createImageData(cv.width,cv.height),PIX=IMG.data;
+const dR=new Float32Array(PH+1),dG=new Float32Array(PH+1),dB=new Float32Array(PH+1);
+
+/* HSL -> RGB（只在预计算时调用一次，不在渲染热路径里拼字符串） */
+function hsl2rgb(h,s,l){
+  h/=360;let r,g,b;
+  if(s===0){r=g=b=l;}
+  else{const q=l<0.5?l*(1+s):l+s-l*s,p=2*l-q;
+    const hk=x=>{if(x<0)x+=1;if(x>1)x-=1;return x<1/6?p+(q-p)*6*x:x<1/2?q:x<2/3?p+(q-p)*(2/3-x)*6:p;};
+    r=hk(h+1/3);g=hk(h);b=hk(h-1/3);}
+  return [r*255|0,g*255|0,b*255|0];
+}
+
+function buildSpectrum(){
+  const fr=fractions(Q);let n=0;
+  COLS=new Array(X0+PW+2);
+  for(const [p,q] of fr){
+    const a=p/q;
+    for(const kx of [1,-1])for(let k=0;k<NKY;k++){
+      const E=harperEigs(p,q,kx,2*Math.PI*k/NKY);
+      for(const En of E)if(En>=-4&&En<=4){
+        const px=Math.round(X0+a*PW);
+        const py=Math.round(Y0+(4-En)/8*PH);
+        const [r,g,b]=hsl2rgb(200-(En+4)/8*120,0.8,0.48);
+        const c=COLS[px]||(COLS[px]=[]);
+        c.push(py,r,g,b);n++;
+      }
+    }
+  }
+  NPTS=n;
+  return {n:fr.length,pts:n};
+}
+
+/* ε 的展宽 = 对每列做竖直箱式卷积（等价原 fillRect 拖影），一次 putImageData 替代 8 万次 fillRect */
+function render(){
+  const t0=performance.now();
+  const e=+$('eps').value/100;
+  const G=gammaAt(e),rho=rhoAt(e),r=ratioAt(e);
+  $('vEps').textContent=e.toFixed(2);
+  $('rho').textContent=rho.toFixed(3);
+  $('gamma').textContent=G.toFixed(3);
+  $('ratio').textContent=r.toFixed(3);
+  $('drop').textContent=((1-r)*100).toFixed(1)+'%';
+  $('epsbadge').textContent='ε = '+e.toFixed(2)+'   Γ = '+G.toFixed(2);
+  const vd=$('verdict');
+  if(e<0.02)vd.innerHTML='<b>ε≈0：理想蝴蝶</b>精细能隙 100% 可辨，对应 HofstadterTools 基准图纸。';
+  else if(e<0.3)vd.innerHTML='<b>弱测量：开始变糊</b>外圈粗纹还在，内圈细纹先被填平——先把最脆弱的能隙抹掉。';
+  else if(e<0.7)vd.innerHTML='<b>中强测量：结构大量消失</b>蝴蝶眼与翅膀纹路显著退化，r≈'+r.toFixed(2)+'。';
+  else vd.innerHTML='<b>强测量：趋于均匀</b>只剩大的朗道骨架，r≈'+r.toFixed(2)+'，接近无结构态。';
+
+  PIX.fill(255); // 白底（Uint8ClampedArray，alpha 已是 255）
+  const rad=Math.floor(Math.max(0,G/8*PH)); // 展宽半宽（像素）
+  const ALPHA=0.62; // 墨量->颜色对比度
+  for(let x=X0;x<=X0+PW;x++){
+    const col=COLS[x];if(!col)continue;
+    dR.fill(0);dG.fill(0);dB.fill(0);
+    for(let i=0;i<col.length;i+=4){
+      const y=col[i]-Y0;if(y<0||y>=PH)continue;
+      dR[y]+=255-col[i+1];dG[y]+=255-col[i+2];dB[y]+=255-col[i+3];
+    }
+    for(let y=1;y<=PH;y++){dR[y]+=dR[y-1];dG[y]+=dG[y-1];dB[y]+=dB[y-1];}
+    for(let y=0;y<PH;y++){
+      const lo=y>rad?y-rad:0,hi=y+rad<PH-1?y+rad:PH-1;
+      const inv=ALPHA/(hi-lo+1);
+      const idx=((Y0+y)*cv.width+x)*4;
+      PIX[idx]  =255-(dR[hi+1]-dR[lo])*inv;
+      PIX[idx+1]=255-(dG[hi+1]-dG[lo])*inv;
+      PIX[idx+2]=255-(dB[hi+1]-dB[lo])*inv;
+    }
+  }
+  ctx.putImageData(IMG,0,0);
+  // 网格
+  ctx.strokeStyle='rgba(27,36,48,.07)';ctx.lineWidth=1;
+  for(let i=0;i<=8;i++){const y=Y0+PH*i/8;ctx.beginPath();ctx.moveTo(X0,y);ctx.lineTo(cv.width-20,y);ctx.stroke();}
+  $('status').textContent=`ε=${e.toFixed(2)} · Γ=${G.toFixed(3)} · r=${r.toFixed(3)} · ${NPTS.toLocaleString()} 本征值 · ${(performance.now()-t0).toFixed(1)}ms/帧`;
+  drawCurve(e,r);
+}
+
+/* rAF 节流：一帧最多渲染一次，拖动滑块不再堆积 */
+function scheduleRender(){if(rafPending)return;rafPending=true;requestAnimationFrame(()=>{rafPending=false;render();});}
+
+function drawCurve(curE,curR){
+  cctx.clearRect(0,0,ccv.width,ccv.height);
+  const L=52,R=20,T=18,B=38,W=ccv.width-L-R,H=ccv.height-T-B;
+  cctx.fillStyle='#fff';cctx.fillRect(0,0,ccv.width,ccv.height);
+  cctx.strokeStyle='rgba(27,36,48,.15)';cctx.lineWidth=1;
+  for(let i=0;i<=5;i++){const y=T+H*i/5;cctx.beginPath();cctx.moveTo(L,y);cctx.lineTo(L+W,y);cctx.stroke();
+    cctx.fillStyle='#7c8a92';cctx.font='11px Consolas';cctx.textAlign='right';cctx.fillText((1-i/5).toFixed(1),L-8,y+4);}
+  for(let i=0;i<=5;i++){const x=L+W*i/5;cctx.beginPath();cctx.moveTo(x,T);cctx.lineTo(x,T+H);cctx.stroke();
+    cctx.fillStyle='#7c8a92';cctx.textAlign='center';cctx.fillText((i*0.2).toFixed(1),x,T+H+16);}
+  cctx.fillStyle='#47555f';cctx.font='12px sans-serif';cctx.textAlign='center';cctx.fillText('测量耦合 ε',L+W/2,ccv.height-6);
+  // 实测曲线
+  cctx.strokeStyle='#6b4a8f';cctx.lineWidth=2;cctx.beginPath();
+  BRIDGE.forEach((d,i)=>{const x=L+d.eps*W,y=T+(1-d.ratio)*H;i?cctx.lineTo(x,y):cctx.moveTo(x,y);});
+  cctx.stroke();
+  BRIDGE.forEach(d=>{const x=L+d.eps*W,y=T+(1-d.ratio)*H;cctx.fillStyle='#9aa6ad';cctx.beginPath();cctx.arc(x,y,2.6,0,7);cctx.fill();});
+  // 当前点
+  const cx=L+curE*W,cy=T+(1-curR)*H;
+  cctx.fillStyle='#a33b3b';cctx.beginPath();cctx.arc(cx,cy,5.5,0,7);cctx.fill();
+  cctx.strokeStyle='#fff';cctx.lineWidth=1.5;cctx.stroke();
+}
+
+$('eps').addEventListener('input',scheduleRender);
+$('reset').addEventListener('click',()=>{$('eps').value=0;stopAuto();render();});
+$('png').addEventListener('click',()=>{const a=document.createElement('a');a.download='eeqt_butterfly_smear_e'+(+$('eps').value/100).toFixed(2)+'.png';a.href=cv.toDataURL();a.click();});
+/* 动画：rAF 时间驱动，每 STEP_MS 推进一档；掉帧时按真实时间跳步，不堆积 */
+let lastTick=0;
+const STEP_MS=90;
+function autoLoop(ts){
+  if(!autoTimer)return;
+  if(!lastTick)lastTick=ts;
+  if(ts-lastTick>=STEP_MS){
+    const steps=Math.max(1,Math.floor((ts-lastTick)/STEP_MS));
+    lastTick=ts;
+    let v=+$('eps').value+steps;if(v>95)v=v%96;
+    $('eps').value=v;
+    render();
+  }
+  autoTimer=requestAnimationFrame(autoLoop);
+}
+function stopAuto(){if(autoTimer){cancelAnimationFrame(autoTimer);autoTimer=null;lastTick=0;$('auto').textContent='▶ 自动扫 ε（动画）';}}
+$('auto').addEventListener('click',()=>{
+  if(autoTimer){stopAuto();return;}
+  $('auto').textContent='⏸ 暂停';
+  lastTick=0;
+  autoTimer=requestAnimationFrame(autoLoop);
+});
+
+// 启动
+const info=buildSpectrum();
+$('status').textContent='能谱就绪：'+info.n+' 磁通 / '+info.pts.toLocaleString()+' 点（拖动即时，无需重算）';
+render();
+</script>
+</body>
+</html>

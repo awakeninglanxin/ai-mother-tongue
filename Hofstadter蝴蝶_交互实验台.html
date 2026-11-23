@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hofstadter 蝴蝶 · 交互实验台（Harper 方程实时计算）</title>
+<style>
+:root{--paper:#f7f3ea;--card:#fffdf8;--ink:#1b2430;--ink2:#47555f;--ink3:#7c8a92;
+--line:rgba(27,36,48,.13);--blue:#1f6f9f;--purple:#6b4a8f;--green:#2c7a58;
+--mono:"Consolas","SF Mono",Menlo,monospace;--serif:"Noto Serif SC","Songti SC",serif;
+--sans:"PingFang SC","Microsoft YaHei",system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.7}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+header{padding:38px 0 22px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--ink3);margin-bottom:10px}
+h1{font-family:var(--serif);font-size:31px;font-weight:700}
+.lede{color:var(--ink2);margin-top:10px;max-width:900px}
+
+.layout{display:grid;grid-template-columns:1fr 300px;gap:22px;padding:24px 0 60px}
+.stage{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;position:relative}
+.stage canvas{display:block;width:100%;height:auto;background:#fff;border:1px solid var(--line2,rgba(27,36,48,.07));border-radius:6px}
+.stage .status{position:absolute;top:26px;left:28px;font-family:var(--mono);font-size:11px;color:var(--ink3);background:rgba(255,253,248,.85);padding:4px 9px;border-radius:5px}
+.axis-lbl{font-family:var(--mono);font-size:10.5px;fill:var(--ink3)}
+
+/* 右浮窗 */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 18px 22px;align-self:start;position:sticky;top:18px}
+.panel h3{font-family:var(--serif);font-size:17px;font-weight:700;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center}
+.panel h3 .fold{cursor:pointer;font-family:var(--mono);font-size:13px;color:var(--ink3);border:1px solid var(--line);border-radius:6px;padding:1px 8px;user-select:none}
+.panel.folded .pbody{display:none}
+.ctl{margin-top:15px}
+.ctl .lb{display:flex;justify-content:space-between;font-size:12px;color:var(--ink2);margin-bottom:5px}
+.ctl .lb b{font-family:var(--mono);color:var(--ink);font-weight:400}
+input[type=range]{width:100%;accent-color:var(--purple)}
+select{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:#fff;font-family:var(--sans);font-size:13px;color:var(--ink)}
+.btn{width:100%;margin-top:16px;padding:9px;border:1px solid var(--purple);color:var(--purple);background:transparent;border-radius:7px;cursor:pointer;font-size:13px}
+.btn:hover{background:var(--purple);color:#fff}
+.btn.sec{border-color:var(--line);color:var(--ink2);margin-top:8px}
+.hint{font-size:11.5px;color:var(--ink3);margin-top:8px;line-height:1.55}
+
+/* 左右双栏解释 */
+.xplain{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:11px;overflow:hidden;margin:18px 0;background:var(--card)}
+.xplain > div{padding:17px 20px}
+.xplain .pro{border-right:1px solid var(--line);background:#fbf9f3}
+.xplain .lay{background:#fffdf8}
+.xplain .tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;padding:2px 7px;border-radius:4px;display:inline-block;margin-bottom:8px}
+.xplain .pro .tag{background:#e8f1f6;color:var(--blue)}
+.xplain .lay .tag{background:#f1ecf6;color:var(--purple)}
+.xplain h4{font-family:var(--serif);font-size:14.5px;font-weight:700;margin-bottom:7px}
+.xplain p{font-size:13px;color:var(--ink2);margin:6px 0}
+.xplain .mono{font-family:var(--mono);font-size:12px;color:var(--blue)}
+section.explain{padding:0 0 34px;border-top:1px solid var(--line);margin-top:10px;padding-top:26px}
+section.explain h2{font-family:var(--serif);font-size:22px;font-weight:700;margin-bottom:6px}
+@media(max-width:820px){.layout{grid-template-columns:1fr}.panel{position:static}.xplain{grid-template-columns:1fr}.xplain .pro{border-right:none;border-bottom:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="eyebrow">Hofstadter butterfly · live Harper diagonalization</div>
+  <h1>Hofstadter 蝴蝶 · 交互实验台</h1>
+  <p class="lede">不用截图、不调用外部库——浏览器里实时对角化 Harper 矩阵，逐点画出能谱分形。右浮窗可调参数，左边随时看专业定义与大白话对照。</p>
+</div></header>
+
+<div class="wrap layout">
+  <!-- 左：画布 + 双栏解释 -->
+  <div>
+    <div class="stage">
+      <canvas id="cv" width="900" height="660" role="img" aria-label="Hofstadter butterfly energy spectrum computed live">您的浏览器不支持 canvas</canvas>
+      <div class="status" id="status">初始化…</div>
+    </div>
+
+    <section class="explain">
+      <h2>① 这图是怎么算出来的</h2>
+      <div class="xplain">
+        <div class="pro"><span class="tag">专业术语</span>
+          <h4>Harper 方程 · Landau 规范</h4>
+          <p><span class="mono">ψₙ₊₁ + ψₙ₋₁ + 2cos(2παn + k<sub>y</sub>)ψₙ = Eψₙ</span></p>
+          <p>磁通 α=p/q 时取 q×q 磁晶胞，边界 hopping 带 Peierls 相位 <span class="mono">e^{iqkₓ}</span>；取 kₓ∈{0, π/q} 两点、k<sub>y</sub> 扫描，Jacobi 旋转求全部本征值 E∈[−4,4]。</p>
+        </div>
+        <div class="lay"><span class="tag">大白话</span>
+          <h4>电子在磁场里"排队走格子"</h4>
+          <p>电子在方格上跳，每走一步磁场就把它推一下、改变它的能量。磁通 α 就是"每格被推多少"。</p>
+          <p>把 α 从 0 调到 1、每种情况把电子所有可能的能量都记下来，画出来就是这只蝴蝶——<b>每一根线都是电子真实能待的能量</b>，缝里是它去不了的地方。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="explain">
+      <h2>② 为什么是分形</h2>
+      <div class="xplain">
+        <div class="pro"><span class="tag">专业术语</span>
+          <h4>有理磁通稠密化 · 自相似</h4>
+          <p>对每个分母 q≤Q 的既约分数 p/q（Farey 序列）求谱，q 越大能带分裂越细；能带在任意尺度重复同一结构，且满足 E→−E 与 α→1−α 对称。</p>
+        </div>
+        <div class="lay"><span class="tag">大白话</span>
+          <h4>放大镜看下去，还是同一只蝴蝶</h4>
+          <p>你放大翅膀任何一处，会看到一模一样的小蝴蝶套在里面——数学上叫"自相似"。</p>
+          <p>调右栏的 <b>q 上限</b> 就像换放大镜：q 越大，翅膀上的纹路越细、越多，但图案的样子不变。这就是"分形"。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="explain">
+      <h2>③ 和 EEQT 有什么关系</h2>
+      <div class="xplain">
+        <div class="pro"><span class="tag">专业术语</span>
+          <h4>理想能谱 vs 测量后有效态密度</h4>
+          <p>本图 = 封闭系统哈密顿量的本征值（HofstadterTools 基准）。EEQT 的 PDP 引入有限耦合 ε 后，跳变抹平相干性 → 同一 (α,E) 平面的分布展宽、精细分形消失，ε→0 时收敛回本图。</p>
+        </div>
+        <div class="lay"><span class="tag">大白话</span>
+          <h4>设计图纸 vs 手电筒照出来的样子</h4>
+          <p>这张干净的蝴蝶是"设计图纸"——绝对理想、没有干扰。真实实验室里你要打手电筒去看它（测量），光越亮（耦合越强），精细纹路被照得越糊。</p>
+          <p>EEQT 就是算"不同亮度下，这只蝴蝶会糊成什么样"的工具——把理想图纸和实验照片对上。</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 右：浮窗 -->
+  <aside class="panel" id="panel">
+    <h3>参数 <span class="fold" id="fold">—</span></h3>
+    <div class="pbody">
+      <div class="ctl"><div class="lb"><span>分母上限 q<sub>max</sub></span><b id="vQ">24</b></div>
+        <input type="range" id="q" min="3" max="60" step="1" value="24"></div>
+      <div class="ctl"><div class="lb"><span>k<sub>y</sub> 采样数</span><b id="vKy">40</b></div>
+        <input type="range" id="ky" min="8" max="120" step="4" value="40"></div>
+      <div class="ctl"><div class="lb"><span>着色模式</span></div>
+        <select id="color"><option value="band">按能带序号（虹彩）</option><option value="energy">按能量（红蓝）</option><option value="mono">单色青</option></select></div>
+      <div class="ctl"><div class="lb"><span>视图缩放</span></div>
+        <select id="zoom"><option value="full">全磁通 α∈[0,1]</option><option value="lowflux">低磁通 α∈[0,0.1]</option><option value="center">中心 α∈[0.35,0.65]</option></select></div>
+      <div class="ctl"><div class="lb"><span>点不透明度</span><b id="vAlpha">0.5</b></div>
+        <input type="range" id="alpha" min="10" max="100" step="5" value="50"></div>
+      <button class="btn" id="run">▶ 重新计算并绘制</button>
+      <button class="btn sec" id="png">保存 PNG</button>
+      <div class="hint" id="hint">提示：q 上限越大越精细但越慢。首次绘制约数秒。</div>
+    </div>
+  </aside>
+</div>
+
+<script>
+"use strict";
+/* ---- 实对称 Jacobi 本征求解（kx=0/π/q 时 Harper 矩阵实对称）---- */
+function jacobiReal(A, n, maxSweeps){
+  const a=A.slice(); maxSweeps=maxSweeps||60;
+  for(let sweep=0;sweep<maxSweeps;sweep++){
+    let off=0; for(let p=0;p<n-1;p++)for(let q=p+1;q<n;q++)off+=a[p*n+q]*a[p*n+q];
+    if(off<1e-20)break;
+    for(let p=0;p<n-1;p++)for(let q=p+1;q<n;q++){
+      const apq=a[p*n+q]; if(Math.abs(apq)<1e-14)continue;
+      const th=(a[q*n+q]-a[p*n+p])/(2*apq);
+      const t=Math.sign(th||1)/(Math.abs(th)+Math.sqrt(th*th+1));
+      const c=1/Math.sqrt(1+t*t), s=t*c;
+      for(let k=0;k<n;k++){if(k===p||k===q)continue;
+        const akp=a[k*n+p],akq=a[k*n+q];
+        a[k*n+p]=a[p*n+k]=c*akp-s*akq; a[k*n+q]=a[q*n+k]=s*akp+c*akq;}
+      const app=a[p*n+p],aqq=a[q*n+q],x=a[p*n+q];
+      a[p*n+p]=c*c*app-2*s*c*x+s*s*aqq;
+      a[q*n+q]=s*s*app+2*s*c*x+c*c*aqq;
+      a[p*n+q]=a[q*n+p]=0;
+    }
+  }
+  const e=[];for(let i=0;i<n;i++)e.push(a[i*n+i]);return e.sort((x,y)=>x-y);
+}
+function harperEigs(p,q,kxSign,ky){
+  const A=new Float64Array(q*q);
+  for(let i=0;i<q;i++)A[i*q+i]=2*Math.cos(2*Math.PI*p*i/q+ky);
+  for(let i=0;i<q;i++){const j=(i+1)%q,ph=(i===q-1)?kxSign:1;A[i*q+j]+=ph;A[j*q+i]+=ph;}
+  return jacobiReal(A,q);
+}
+function gcd(a,b){while(b){const t=a%b;a=b;b=t;}return a;}
+/* Farey 分数：0/1 到 1/1，分母<=Q，包含 1/1 */
+function fractions(Q){
+  const out=[];
+  for(let q=1;q<=Q;q++)for(let p=0;p<=q;p++)if(gcd(p,q)===1)out.push([p,q]);
+  out.sort((a,b)=>a[0]/a[1]-b[0]/b[1]);
+  return out;
+}
+function bandColor(band,total,alpha){
+  const hue=(band*137.5 + alpha*40) % 360;
+  return `hsla(${hue.toFixed(0)},85%,52%,${alpha})`;
+}
+function energyColor(E,alpha){
+  // E∈[-4,4] -> 蓝(-) 到 红(+)
+  const t=(E+4)/8;
+  const r=Math.round(255*t), b=Math.round(255*(1-t));
+  return `rgba(${r},80,${b},${alpha})`;
+}
+
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+const $=id=>document.getElementById(id);
+let drawing=false;
+
+function viewRange(){
+  const z=$('zoom').value;
+  if(z==='lowflux')return [0,0.1];
+  if(z==='center')return [0.35,0.65];
+  return [0,1];
+}
+function draw(){
+  if(drawing)return; drawing=true;
+  const Q=+$('q').value, Nky=+$('ky').value, opacity=+$('alpha').value/100;
+  const mode=$('color').value, [aMin,aMax]=viewRange();
+  $('status').textContent='计算中 q≤'+Q+' …';
+  ctx.clearRect(0,0,cv.width,cv.height);
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,cv.width,cv.height);
+  // 网格
+  ctx.strokeStyle='rgba(27,36,48,.08)';ctx.lineWidth=1;
+  for(let i=0;i<=10;i++){const y=40+(cv.height-80)*i/10;ctx.beginPath();ctx.moveTo(50,y);ctx.lineTo(cv.width-20,y);ctx.stroke();}
+  const W=cv.width-70,H=cv.height-80;
+  const fracs=fractions(Q).filter(([p,q])=>{const a=p/q;return a>=aMin-1e-9&&a<=aMax+1e-9;});
+  let drawn=0;
+  function chunk(start,end){
+    for(let fi=start;fi<end;fi++){
+      const [p,q]=fracs[fi], alpha=p/q;
+      const px=50+(alpha-aMin)/(aMax-aMin)*W;
+      for(const kx of [1,-1]){
+        for(let k=0;k<Nky;k++){
+          const ky=2*Math.PI*k/Nky;
+          const E=jacobiReal===null?null:harperEigs(p,q,kx,ky);
+          for(let bi=0;bi<E.length;bi++){
+            const e=E[bi];
+            if(e<-4||e>4)continue;
+            const py=40+(4-e)/8*H;
+            ctx.fillStyle=mode==='band'?bandColor(bi,E.length,opacity):
+                          mode==='energy'?energyColor(e,opacity):
+                          `rgba(31,111,159,${opacity})`;
+            ctx.fillRect(px,py,1.4,1.4);
+            drawn++;
+          }
+        }
+      }
+    }
+  }
+  let idx=0;
+  function step(){
+    const t0=performance.now();
+    while(idx<fracs.length && performance.now()-t0<60){const nx=Math.min(fracs.length,idx+Math.max(1,Math.floor(fracs.length/40)));chunk(idx,nx);idx=nx;}
+    $('status').textContent=`已绘 ${idx}/${fracs.length} 个磁通 · ${drawn.toLocaleString()} 点`;
+    if(idx<fracs.length)requestAnimationFrame(step);
+    else{drawing=false;$('status').textContent=`完成 · ${fracs.length} 个磁通 · ${drawn.toLocaleString()} 点 · q≤${Q}`;}
+  }
+  requestAnimationFrame(step);
+}
+
+['q','ky','alpha'].forEach(id=>$(id).addEventListener('input',()=>{
+  $('vQ').textContent=$('q').value;$('vKy').textContent=$('ky').value;$('vAlpha').textContent=($('alpha').value/100).toFixed(2);
+}));
+['q','ky','color','zoom','alpha'].forEach(id=>$(id).addEventListener('change',()=>{
+  // 低磁通视图若 q 太小，可用磁通分数太少会画成稀疏点；自动提示并提到高分辨率
+  if(id==='zoom' && $('zoom').value==='lowflux' && +$('q').value < 40){
+    $('q').value=60; $('vQ').textContent='60';
+    $('hint').textContent='已自动把 q 提到 60：低磁通区需要大分母才有足够磁通点，才能显出交叉主线。';
+  } else if(id==='zoom'){
+    $('hint').textContent='提示：q 上限越大越精细但越慢。';
+  }
+  draw();
+}));
+$('run').addEventListener('click',draw);
+$('png').addEventListener('click',()=>{const a=document.createElement('a');a.download='hofstadter_butterfly.png';a.href=cv.toDataURL();a.click();});
+$('fold').addEventListener('click',()=>{const p=$('panel');p.classList.toggle('folded');$('fold').textContent=p.classList.contains('folded')?'+':'—';});
+draw();
+</script>
+</body>
+</html>

@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mini 水杯工作站 · 专业讲解</title>
+<style>
+:root{
+  --paper:#f7f3ea; --paper2:#fbf8f1; --card:#fffdf8;
+  --ink:#1b2430; --ink2:#47555f; --ink3:#7c8a92; --ink4:#a9b4b8;
+  --line:rgba(27,36,48,.13); --line2:rgba(27,36,48,.07);
+  --blue:#1f6f9f; --blue-l:#e8f1f6;
+  --purple:#6b4a8f; --purple-l:#f1ecf6;
+  --green:#2c7a58; --green-l:#e9f2ec;
+  --red:#a8352e; --red-l:#f7eae8;
+  --gold:#a87c22; --gold-l:#f6efdc;
+  --mono:"Consolas","SF Mono","Cascadia Mono",Menlo,monospace;
+  --serif:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,Georgia,serif;
+  --sans:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",system-ui,-apple-system,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.8;
+  -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(circle at 18% 8%,rgba(168,124,34,.05),transparent 42%),radial-gradient(circle at 82% 4%,rgba(31,111,159,.05),transparent 40%);
+  background-attachment:fixed}
+.wrap{max-width:1120px;margin:0 auto;padding:0 30px}
+a{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(31,111,159,.28)}
+a:hover{border-bottom-color:var(--blue)}
+
+.top{padding:52px 0 30px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.22em;color:var(--ink3);text-transform:uppercase;margin-bottom:14px}
+h1{font-family:var(--serif);font-size:39px;font-weight:700;letter-spacing:.01em;line-height:1.25}
+h1 .thin{color:var(--ink3);font-weight:400;font-size:.72em}
+.lede{margin-top:16px;font-size:16px;color:var(--ink2);max-width:920px}
+.lede b{color:var(--ink)}
+.meta-line{margin-top:20px;font-family:var(--mono);font-size:11.5px;color:var(--ink3);line-height:1.9}
+
+nav.tabs{position:sticky;top:0;z-index:20;background:rgba(247,243,234,.94);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:4px;flex-wrap:wrap;padding-top:9px;padding-bottom:9px}
+nav.tabs a{font-size:12.5px;color:var(--ink2);padding:5px 12px;border:none;border-radius:7px;font-family:var(--mono)}
+nav.tabs a:hover{background:var(--paper2);color:var(--ink)}
+nav.tabs a.on{background:var(--ink);color:var(--paper)}
+
+section{padding:52px 0;border-bottom:1px solid var(--line2)}
+section h2{font-family:var(--serif);font-size:28px;font-weight:700;margin-bottom:6px;display:flex;align-items:baseline;gap:14px}
+section h2 .no{font-family:var(--mono);font-size:13px;color:var(--gold);font-weight:400;letter-spacing:.05em}
+section .sub{color:var(--ink2);font-size:15px;max-width:880px;margin-bottom:28px}
+h3{font-family:var(--serif);font-size:19px;font-weight:700;margin:30px 0 12px;color:var(--ink)}
+p{margin:12px 0;color:var(--ink2)}
+p b,li b{color:var(--ink)}
+
+.callout{border-left:3px solid var(--gold);background:var(--gold-l);padding:16px 20px;margin:22px 0;border-radius:0 8px 8px 0}
+.callout .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+.callout p{margin:0;color:var(--ink)}
+.callout.green{border-left-color:var(--green);background:var(--green-l)}
+.callout.green .lbl{color:var(--green)}
+.callout.red{border-left-color:var(--red);background:var(--red-l)}
+.callout.red .lbl{color:var(--red)}
+
+.fig{margin:26px 0;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:22px 24px 18px;overflow-x:auto}
+.fig .cap{font-family:var(--mono);font-size:11.5px;color:var(--ink3);letter-spacing:.06em;margin-bottom:14px;text-transform:uppercase}
+.fig svg{display:block;width:100%;height:auto;min-width:580px}
+.fig .note{font-size:12.5px;color:var(--ink3);margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
+
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:13.5px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line2);vertical-align:top}
+th{font-family:var(--mono);font-size:12px;color:var(--ink3);font-weight:400;letter-spacing:.03em;border-bottom:1.5px solid var(--line)}
+td{color:var(--ink2)}
+tr:hover td{background:var(--paper2)}
+.mono{font-family:var(--mono)}
+.tag{display:inline-block;font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:5px;white-space:nowrap}
+.t-src{background:var(--blue-l);color:var(--blue)}
+.t-th{background:var(--purple-l);color:var(--purple)}
+.t-num{background:var(--green-l);color:var(--green)}
+.t-warn{background:var(--red-l);color:var(--red)}
+.t-open{background:var(--gold-l);color:var(--gold)}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:20px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:20px 22px}
+.card h4{font-family:var(--serif);font-size:17px;font-weight:700;margin-bottom:10px}
+
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:24px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:14px 16px}
+.stat .k{font-family:var(--mono);font-size:11px;color:var(--ink3);letter-spacing:.05em}
+.stat .v{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--ink);margin-top:4px}
+.stat .v.g{color:var(--green)}.stat .v.o{color:var(--gold)}.stat .v.b{color:var(--blue)}.stat .v.r{color:var(--red)}
+.stat .d{font-size:11.5px;color:var(--ink3);margin-top:3px}
+
+.xplain{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:11px;overflow:hidden;margin:18px 0;background:var(--card)}
+.xplain>div{padding:16px 20px}
+.xplain .pro{border-right:1px solid var(--line);background:#fbf9f3}
+.xplain .lay{background:#fffdf8}
+.xplain .tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;padding:2px 7px;border-radius:4px;display:inline-block;margin-bottom:7px}
+.xplain .pro .tag{background:var(--blue-l);color:var(--blue)}
+.xplain .lay .tag{background:var(--purple-l);color:var(--purple)}
+.xplain h4{font-family:var(--serif);font-size:14.5px;font-weight:700;margin-bottom:6px}
+.xplain p{font-size:13px;margin:5px 0}
+.xplain .mono{font-family:var(--mono);font-size:12px;color:var(--blue)}
+.xplain em{color:var(--purple);font-style:normal;font-weight:700}
+
+ul.clean{list-style:none;padding:0}
+ul.clean li{padding:9px 0 9px 26px;position:relative;border-bottom:1px solid var(--line2)}
+ul.clean li:before{content:"→";position:absolute;left:2px;color:var(--gold);font-family:var(--mono)}
+ul.clean li:last-child{border-bottom:none}
+
+.backlink{display:inline-block;margin-top:8px;font-family:var(--mono);font-size:12.5px}
+footer{padding:36px 0 60px;color:var(--ink3);font-size:12.5px;font-family:var(--mono);line-height:2}
+@media(max-width:760px){.grid2,.stat-row{grid-template-columns:1fr}h1{font-size:28px}section h2{font-size:23px}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">Mini Workstation · Photonic Computing · Five-Qubit Code · EEQT Native Language</div>
+    <h1>Mini 水杯工作站 <span class="thin">/ 光子信号计算、五比特码与 EEQT 母语架构</span></h1>
+    <p class="lede">老师愿景：未来量子机浓缩到<b>圆柱形保温杯大小</b>，用硅光等前沿芯片 + EEQT 底层 AI 母语大模型，<b>超越 GPU+CUDA</b>；结合「时空即纠错码」两网页，用五比特为基<b>是否可以不需要纠错</b>。本页把这份方案书完整讲透——先纠正三个前提，再给硬件现实、分层架构、三代路线与诚实证据边界。</p>
+    <div class="meta-line">
+      生成 2026-11-23 ｜ 配套方案书 <span class="mono">Mini水杯工作站_光子信号计算器与EEQT母语架构_v1.md</span> ｜ 依据：两网页原文 + 2026 产业硬件实测 + EEQT/QIFS 论文 + 本工作区 ε 抹平实验<br>
+      取证规则：回原文逐条取证 · 公式须有依据 · 查不到不编解释 · 预测与事实分开标注
+    </div>
+  </div>
+</header>
+
+<nav class="tabs"><div class="wrap">
+  <a href="#concl">0 · 三句话</a><a href="#correct">1 · 纠偏</a><a href="#hardware">2 · 硬件现实</a>
+  <a href="#arch">3 · 四层架构</a><a href="#roadmap">4 · 三代路线</a><a href="#fiveq">5 · 五比特答案</a>
+  <a href="#checklist">6 · 执行清单</a><a href="#evidence">7 · 证据总表</a>
+  <a href="EEQT专业讲解.html" style="color:var(--purple)">← 返回主讲解</a>
+</div></nav>
+
+<!-- ============ 0 三句话 ============ -->
+<section id="concl"><div class="wrap">
+  <h2><span class="no">00</span>三句话结论（先看这个）</h2>
+  <p class="sub">方向对，但三个词必须精确化——"超越"要限定任务、"不需要纠错"要改成"不需要额外纠错"、"保温杯"要分芯片与整机。</p>
+
+  <div class="stat-row">
+    <div class="stat"><div class="k">QRNG 真随机源芯片</div><div class="v g">4×4 mm</div><div class="d">硅臻 QRNG-10 · 已量产 · 今天可入杯</div></div>
+    <div class="stat"><div class="k">室温光量子芯片</div><div class="v g">18×4 mm</div><div class="d">Rotonium 2026-11 · 4 比特 · 无低温</div></div>
+    <div class="stat"><div class="k">紧凑低温整机</div><div class="v o">100 mm</div><div class="d">3 kg · 70 mK · 接近粗保温杯</div></div>
+    <div class="stat"><div class="k">通用水杯级可达</div><div class="v r">8–10 年</div><div class="d">产业预测 · 确信度低 · 非物理定律</div></div>
+  </div>
+
+  <div class="callout"><div class="lbl">结论 1 · 超越 GPU 要精确化</div>
+    <p>不是全任务超越，而是在<b>特定任务</b>（量子模拟、组合优化采样、真随机源、测量对账）上形成"光子协处理器 + EEQT 接口层"异构架构；通用逻辑与大模型训练仍归 GPU。EEQT 的价值在<b>单次运行语义 + 经典接口</b>，从来就不是"更快的矩阵乘法"。</p>
+  </div>
+  <div class="callout green"><div class="lbl">结论 2 · 五比特纠错要精确化</div>
+    <p><span class="mono">[[5,1,3]]</span> 本身就是<b>最小的完美量子纠错码</b>（5 物理比特编 1 逻辑比特、抗任意 2 擦除），HaPPY 六腿张量就是它。正确表述：<b>不需要额外的纠错电路，因为纠错已经长在编码的几何结构里</b>。这是"时空即纠错码"的真正含义。</p>
+  </div>
+  <div class="callout red"><div class="lbl">结论 3 · 保温杯要分芯片与整机</div>
+    <p>当前做不到通用机，但芯片级已做到：最小室温光量子芯片 18×4 mm、QRNG 4×4 mm；整机瓶颈是<b>单光子探测器仍需 1–2 K 低温</b>、光源与控制电子学。下面给三代路线：M0 今天可装、M2 才是真水杯级。</p>
+  </div>
+</div></section>
+
+<!-- ============ 1 纠正前提 ============ -->
+<section id="correct"><div class="wrap">
+  <h2><span class="no">01</span>先纠正三个前提（老师授权"更优"，故直说）</h2>
+  <p class="sub">否则会把纠错码当"免纠错捷径"、把接口语义当"算力引擎"，做出来的机器会跑偏。下面方案建立在纠正后的地基上。</p>
+
+  <div class="fig">
+    <div class="cap">图 1 · 三个前提的概念纠偏 —— 左：原始表述 · 右：纠正后</div>
+    <svg viewBox="0 0 680 320" width="100%" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>三个前提纠偏</title>
+      <defs><marker id="aw1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.6" stroke-linecap="round"/></marker></defs>
+      <text x="120" y="28" text-anchor="middle" font-size="12" font-family="monospace" fill="#a8352e">老师原始表述</text>
+      <text x="558" y="28" text-anchor="middle" font-size="12" font-family="monospace" fill="#2c7a58">查证后精确表述</text>
+      <!-- row1 -->
+      <rect x="24" y="44" width="196" height="66" rx="9" fill="#f7eae8" stroke="#a8352e" stroke-width="0.5"/>
+      <text x="122" y="68" text-anchor="middle" font-size="12.5" fill="#412402">EEQT 当底层算力，</text>
+      <text x="122" y="88" text-anchor="middle" font-size="12.5" fill="#412402">超越 GPU+CUDA</text>
+      <path d="M228 77 L446 77" fill="none" stroke="#a87c22" stroke-width="1.8" marker-end="url(#aw1)"/>
+      <rect x="454" y="44" width="202" height="66" rx="9" fill="#e9f2ec" stroke="#2c7a58" stroke-width="0.5"/>
+      <text x="555" y="68" text-anchor="middle" font-size="12.5" fill="#04342C">EEQT=语义接口层，</text>
+      <text x="555" y="88" text-anchor="middle" font-size="12.5" fill="#04342C">与 GPU 异构互补</text>
+      <!-- row2 -->
+      <rect x="24" y="130" width="196" height="66" rx="9" fill="#f7eae8" stroke="#a8352e" stroke-width="0.5"/>
+      <text x="122" y="154" text-anchor="middle" font-size="12.5" fill="#412402">五比特为基 →</text>
+      <text x="122" y="174" text-anchor="middle" font-size="12.5" fill="#412402">不需要纠错</text>
+      <path d="M228 163 L446 163" fill="none" stroke="#a87c22" stroke-width="1.8" marker-end="url(#aw1)"/>
+      <rect x="454" y="130" width="202" height="66" rx="9" fill="#e9f2ec" stroke="#2c7a58" stroke-width="0.5"/>
+      <text x="555" y="154" text-anchor="middle" font-size="12.5" fill="#04342C">[[5,1,3]] 是纠错码，</text>
+      <text x="555" y="174" text-anchor="middle" font-size="12.5" fill="#04342C">纠错嵌入几何</text>
+      <!-- row3 -->
+      <rect x="24" y="216" width="196" height="66" rx="9" fill="#f7eae8" stroke="#a8352e" stroke-width="0.5"/>
+      <text x="122" y="240" text-anchor="middle" font-size="12.5" fill="#412402">保温杯大小的</text>
+      <text x="122" y="260" text-anchor="middle" font-size="12.5" fill="#412402">通用量子机</text>
+      <path d="M228 249 L446 249" fill="none" stroke="#a87c22" stroke-width="1.8" marker-end="url(#aw1)"/>
+      <rect x="454" y="216" width="202" height="66" rx="9" fill="#e9f2ec" stroke="#2c7a58" stroke-width="0.5"/>
+      <text x="555" y="240" text-anchor="middle" font-size="12.5" fill="#04342C">芯片毫米级已实现，</text>
+      <text x="555" y="260" text-anchor="middle" font-size="12.5" fill="#04342C">整机卡在探测器低温</text>
+      <text x="340" y="310" text-anchor="middle" font-size="11" font-family="monospace" fill="#7c8a92">纠偏后：把"口号"变成可落地的工程分层</text>
+    </svg>
+  </div>
+
+  <table>
+    <thead><tr><th style="width:20%">老师表述</th><th>查证结果</th><th style="width:26%">确信度 / 来源</th></tr></thead>
+    <tbody>
+      <tr><td><b>"015（五比特为基）"</b></td><td>全网三轮 + 本地 PKS 全盘检索，<b>无"光子信号计算器015"确切型号</b>；命中的是光子计算整个大类（PACE、Lightmatter、曦智、硅臻、"流星一号"）。两网页里 "015" 全是 "HaPPY code <b>2015</b>" 的年份子串。</td><td><span class="tag t-src">高·检索实证</span> 若是内部代号请给出处</td></tr>
+      <tr><td><b>"五比特→不需纠错"</b></td><td>字面错误。<span class="mono">[[5,1,3]]</span> 是最小完美<b>纠错</b>码；HaPPY 用它做六腿张量。网页自己写着"稳固性 = 容错性，<b>不是『不要纠错』</b>"。</td><td><span class="tag t-src">高</span> ECC Zoo / Harlow 讲义 / 网页原文</td></tr>
+      <tr><td><b>"EEQT 母语超越 GPU+CUDA"</b></td><td>概念错配。GPU+CUDA 是通用并行算力架构；EEQT 是量子-经典接口与单轨迹语义框架。二者不同层，不是同台竞速。量子只在 Shor/模拟/幅度估计等特定任务有可证加速。</td><td><span class="tag t-src">高</span> 2026 产业评估 + EEQT 论文</td></tr>
+    </tbody>
+  </table>
+
+  <div class="xplain">
+    <div class="pro"><span class="tag">专业术语</span>
+      <h4>接口语义 ≠ 算力架构</h4>
+      <p>GPU+CUDA 是<b>通用并行算力架构</b>（SIMT、张量核、高带宽显存）；EEQT 是<b>量子-经典接口与单轨迹语义框架</b>（Lindblad↔PDP 定理、测量耦合 g、事件流）。</p>
+      <p>二者处在不同抽象层——前者解决"算得快"，后者解决"单次运行发生了什么、如何把量子事件讲给经典世界听"。<em>不同层不可同台竞速。</em></p>
+    </div>
+    <div class="lay"><span class="tag">大白话</span>
+      <h4>不是"更快的发动机"，是"翻译官"</h4>
+      <p>GPU 像发动机，负责跑得快；EEQT 像<b>翻译官 + 行车记录仪</b>——量子世界每次"咔嗒"一下（测量跳跃），它把这一下记成一条可审计的事件，再翻译成 AI 能听懂的话。</p>
+      <p>你不会拿翻译官跟发动机比谁跑得快——<b>这是两码事</b>。真正值钱的是：有了这个翻译官，量子机第一次能跟经典 AI"对上话"。这才是 EEQT 不可替代的地方。</p>
+    </div>
+  </div>
+
+  <div class="callout red"><div class="lbl">查证更正 · 015</div>
+    <p>全网三轮 + 本地 PKS 全盘检索，<b>无"光子信号计算器 015"这个确切型号</b>；两网页里的 "015" 全是 "HaPPY code <b>2015</b>" 的年份子串。若 015 是老师内部代号或未公开资料，请给出处，我按新证据重评——绝不编造一个不存在的型号。</p>
+  </div>
+</div></section>
+
+<!-- ============ 2 硬件现实 ============ -->
+<section id="hardware"><div class="wrap">
+  <h2><span class="no">02</span>硬证据：2026 年硬件现实（决定"能不能塞进保温杯"）</h2>
+  <p class="sub">芯片（随机源/光量子/光计算）已经毫米级；整机卡在"探测器低温 + 光源 + 光电转换 + 控制电子学"。谁能把这四样集成进 100 mm 圆柱，谁就做出真水杯机——目前没有一家做到。</p>
+
+  <div class="fig">
+    <div class="cap">图 2 · 尺寸对比 —— 芯片已毫米级，整机卡在探测器（横条按对数尺度示意）</div>
+    <svg viewBox="0 0 680 430" width="100%" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>硬件尺寸对比</title>
+      <!-- 格线：以 100mm 保温杯为参考竖线 x=430 -->
+      <line x1="430" y1="40" x2="430" y2="392" stroke="#a87c22" stroke-width="1.2" stroke-dasharray="5 4"/>
+      <text x="430" y="34" text-anchor="middle" font-size="11" font-family="monospace" fill="#a87c22">保温杯 ~100 mm 参考线</text>
+      <text x="60" y="34" font-size="11" font-family="monospace" fill="#7c8a92">← 更小（毫米级芯片）　尺度（对数）　更大 →</text>
+      <!-- rows: label x=60..190, bar from 200 -->
+      <!-- QRNG 4mm -->
+      <text x="190" y="78" text-anchor="end" font-size="12" fill="#1b2430">QRNG-10 芯片</text>
+      <rect x="200" y="64" width="34" height="22" rx="4" fill="#2c7a58"/>
+      <text x="242" y="79" font-size="11.5" font-family="monospace" fill="#2c7a58">4×4 mm · 已量产 ✅</text>
+      <!-- Rotonium 18mm -->
+      <text x="190" y="122" text-anchor="end" font-size="12" fill="#1b2430">Rotonium 光量子</text>
+      <rect x="200" y="108" width="62" height="22" rx="4" fill="#2c7a58"/>
+      <text x="270" y="123" font-size="11.5" font-family="monospace" fill="#2c7a58">18×4 mm · 室温 4 比特 ✅</text>
+      <!-- compact cryo 100mm -->
+      <text x="190" y="166" text-anchor="end" font-size="12" fill="#1b2430">超紧凑稀释制冷</text>
+      <rect x="200" y="152" width="230" height="22" rx="4" fill="#a87c22"/>
+      <text x="438" y="167" font-size="11.5" font-family="monospace" fill="#a87c22">100 mm · 3 kg ⚠️ 接近杯径</text>
+      <!-- SNSPD -->
+      <text x="190" y="210" text-anchor="end" font-size="12" fill="#1b2430">SNSPD 探测器</text>
+      <rect x="200" y="196" width="120" height="22" rx="4" fill="#a8352e"/>
+      <text x="328" y="211" font-size="11.5" font-family="monospace" fill="#a8352e">需 1–2 K 低温 ❌ 最难塞</text>
+      <!-- desktop cryo -->
+      <text x="190" y="254" text-anchor="end" font-size="12" fill="#1b2430">桌面稀释制冷</text>
+      <rect x="200" y="240" width="440" height="22" rx="4" fill="#a8352e"/>
+      <text x="648" y="255" text-anchor="end" font-size="11.5" font-family="monospace" fill="#fffdf8">150×80 cm ❌</text>
+      <!-- room-temp TI-SPD -->
+      <text x="190" y="298" text-anchor="end" font-size="12" fill="#1b2430">室温拓扑探测器</text>
+      <rect x="200" y="284" width="90" height="22" rx="4" fill="#a87c22"/>
+      <text x="298" y="299" font-size="11.5" font-family="monospace" fill="#a87c22">免低温但效率仅 5–10% ⚠️</text>
+      <!-- legend -->
+      <rect x="60" y="338" width="14" height="14" rx="3" fill="#2c7a58"/><text x="82" y="350" font-size="11.5" fill="#47555f">今天可入杯</text>
+      <rect x="196" y="338" width="14" height="14" rx="3" fill="#a87c22"/><text x="218" y="350" font-size="11.5" fill="#47555f">接近 / 有瓶颈</text>
+      <rect x="352" y="338" width="14" height="14" rx="3" fill="#a8352e"/><text x="374" y="350" font-size="11.5" fill="#47555f">当前不可入杯</text>
+      <text x="60" y="392" font-size="11.5" fill="#7c8a92">一句话判据：芯片已毫米级；整机卡在探测器低温 + 光源 + 光电转换 + 控制电子学。</text>
+      <text x="60" y="414" font-size="11" font-family="monospace" fill="#7c8a92">数据：硅臻 QRNG-10 / Rotonium 2026-11 / arXiv 2608.18699 / FormFactor Flatiron / 上海微系统所</text>
+    </svg>
+  </div>
+
+  <table>
+    <thead><tr><th style="width:26%">器件 / 进展</th><th style="width:34%">实测指标</th><th>对水杯 workstation 的意义</th></tr></thead>
+    <tbody>
+      <tr><td>硅臻 QRNG-10 芯片</td><td>4×4 mm、7 Mbps、量产 20 万片、过国密检测</td><td><span class="tag t-num">✅ 现在就能塞进</span> 真随机源，EEQT 测量的物理入口</td></tr>
+      <tr><td>Rotonium 室温光量子（2026-11）</td><td>18×4 mm、4 有效比特、硅光、全程无低温</td><td><span class="tag t-num">✅ 芯片级室温已实现</span> 但仅 4 比特，整机仍非水杯</td></tr>
+      <tr><td>硅臻 × 中科大 MBQC（2026-08）</td><td>片上 4 光子 16 比特 GHZ、Grover 98.7%、预计 2032–33 商业化</td><td><span class="tag t-open">⚠️ 扩展路径清晰</span> 通用机仍 8–10 年</td></tr>
+      <tr><td>FormFactor 桌面稀释制冷机</td><td>30 mK、占地 150×80 cm</td><td><span class="tag t-warn">❌ 桌面都这么大</span> 超导路线与水杯无缘</td></tr>
+      <tr><td>超紧凑稀释制冷（arXiv 2608.18699）</td><td>3 kg / 100 mm 直径、70 mK、1.2 h 降温</td><td><span class="tag t-open">⚠️ 接近粗杯径</span> 物理可行但需工程集成</td></tr>
+      <tr><td>SNSPD 单光子探测器</td><td>效率 &gt;90%、抖动 &lt;10 ps，但需 1–2 K；1024 像素阵列</td><td><span class="tag t-warn">❌ 最难塞进的部件</span> Xanadu 2026 仍做紧凑低温模块</td></tr>
+      <tr><td>室温拓扑绝缘体探测器</td><td>1550 nm 效率仅 5–10%、暗计数 ~1000/s</td><td><span class="tag t-open">⚠️ 免低温但效率太低</span> 仅原理验证</td></tr>
+      <tr><td>PACE / Lightmatter 光计算</td><td>16000 元件 64×64 @1 GHz；4×128×128 跑 BERT/ResNet</td><td><span class="tag t-num">✅ 矩阵乘加已商用</span> 做不了逻辑分支，光电转换占延迟近四成</td></tr>
+      <tr><td>Shor 破解 RSA-2048</td><td>约 2000 万物理比特；当前硬件 ~1000 比特</td><td><span class="tag t-warn">❌ 10–15 年愿景</span> 与水杯无关</td></tr>
+    </tbody>
+  </table>
+
+  <div class="xplain">
+    <div class="pro"><span class="tag">专业术语</span>
+      <h4>整机瓶颈是系统集成，不是单一芯片</h4>
+      <p>光量子整机的四个非芯片环节——<b>单光子探测（SNSPD 需 1–2 K）、光源、光电转换、控制电子学</b>——目前都无法 millimeter 化。光电转换延迟占比可达近 40%。</p>
+      <p>因此"保温杯大小"是<em>系统集成问题</em>，不是摩尔定律式的单芯片缩放问题。紧凑低温（100 mm / 3 kg）是唯一接近可行的超导路线。</p>
+    </div>
+    <div class="lay"><span class="tag">大白话</span>
+      <h4>最小的不是冰箱，是"拍照的相机"</h4>
+      <p>芯片确实小到指甲盖都不到，但整台机器里有个"超级冰箱"——探测器要冷到零下 271 度才能工作。这个冰箱现在有小 Desk 那么大，塞不进保温杯。</p>
+      <p>所以难题不是把芯片做小（已经够小了），而是<b>把那个冰箱、光源和一堆控制线一起塞进杯子</b>。谁先把"冰箱"缩到杯子粗，谁就赢。目前没人做到。</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 3 四层架构 ============ -->
+<section id="arch"><div class="wrap">
+  <h2><span class="no">03</span>架构：EEQT 该放在哪一层（"更优"的核心）</h2>
+  <p class="sub">老师说"EEQT 底层"在物理实现上是对的（它紧贴量子-经典界面），但在算力供应链上不能替代 GPU。正确的异构分工是把 EEQT 放在 L2–L3 接口层。</p>
+
+  <div class="fig">
+    <div class="cap">图 3 · L1–L4 四层架构 —— EEQT 在接口层，不在算力层（★ 不可替代处）</div>
+    <svg viewBox="0 0 680 520" width="100%" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>四层架构</title>
+      <defs><marker id="aw3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round"/></marker></defs>
+      <!-- L4 -->
+      <rect x="40" y="34" width="470" height="92" rx="12" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+      <text x="58" y="58" font-size="14.5" font-weight="700" fill="#26215C">L4 · 母语大模型层</text>
+      <text x="58" y="80" font-size="12.5" fill="#534AB7">Winskel 带标签事件 → 可通信码本 → LLM / Agent</text>
+      <text x="58" y="100" font-size="11.5" font-family="monospace" fill="#6b4a8f">消费"这一次运行发生了什么" · E11 效率判据 OPEN</text>
+      <rect x="528" y="52" width="112" height="56" rx="8" fill="#fffdf8" stroke="#534AB7" stroke-width="0.5"/>
+      <text x="584" y="74" text-anchor="middle" font-size="11" font-family="monospace" fill="#534AB7">讲给 AI 听</text>
+      <text x="584" y="92" text-anchor="middle" font-size="11" font-family="monospace" fill="#534AB7">（语义）</text>
+      <!-- arrow -->
+      <path d="M275 126 L275 142" fill="none" stroke="#7c8a92" stroke-width="1.5" marker-end="url(#aw3)"/>
+      <text x="290" y="139" font-size="10.5" font-family="monospace" fill="#7c8a92">事件流上行</text>
+      <!-- L3 -->
+      <rect x="40" y="144" width="470" height="92" rx="12" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+      <text x="58" y="168" font-size="14.5" font-weight="700" fill="#04342C">L3 · EEQT 事件层 ★ 不可替代处</text>
+      <text x="58" y="190" font-size="12.5" fill="#0F6E56">PDP 单轨迹：连续演化 → 咔嗒跳跃 → 可审计事件流</text>
+      <text x="58" y="210" font-size="11.5" font-family="monospace" fill="#2c7a58">Lindblad↔PDP 定理 · 单运行语义 + 经典接口</text>
+      <rect x="528" y="162" width="112" height="56" rx="8" fill="#fffdf8" stroke="#0F6E56" stroke-width="1"/>
+      <text x="584" y="184" text-anchor="middle" font-size="11" font-family="monospace" fill="#0F6E56">EEQT 在这</text>
+      <text x="584" y="202" text-anchor="middle" font-size="11" font-family="monospace" fill="#0F6E56">（接口）</text>
+      <path d="M275 236 L275 252" fill="none" stroke="#7c8a92" stroke-width="1.5" marker-end="url(#aw3)"/>
+      <text x="290" y="249" font-size="10.5" font-family="monospace" fill="#7c8a92">测量记录</text>
+      <!-- L2 -->
+      <rect x="40" y="254" width="470" height="92" rx="12" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+      <text x="58" y="278" font-size="14.5" font-weight="700" fill="#042C53">L2 · 测量接口层</text>
+      <text x="58" y="300" font-size="12.5" fill="#185FA5">耦合 g / ε · QRNG 真随机源 · 态制备与读出 · 退相干对账</text>
+      <text x="58" y="320" font-size="11.5" font-family="monospace" fill="#1f6f9f">ε 抹平蝴蝶实验已在此层跑通：Γ = 0.5·artanh ε</text>
+      <rect x="528" y="272" width="112" height="56" rx="8" fill="#fffdf8" stroke="#185FA5" stroke-width="0.5"/>
+      <text x="584" y="294" text-anchor="middle" font-size="11" font-family="monospace" fill="#185FA5">测量耦合</text>
+      <text x="584" y="312" text-anchor="middle" font-size="11" font-family="monospace" fill="#185FA5">（ε）</text>
+      <path d="M275 346 L275 362" fill="none" stroke="#7c8a92" stroke-width="1.5" marker-end="url(#aw3)"/>
+      <text x="290" y="359" font-size="10.5" font-family="monospace" fill="#7c8a92">物理承载</text>
+      <!-- L1 -->
+      <rect x="40" y="364" width="470" height="92" rx="12" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+      <text x="58" y="388" font-size="14.5" font-weight="700" fill="#412402">L1 · 物理算力层（EEQT 不是这层）</text>
+      <text x="58" y="410" font-size="12.5" fill="#854F0B">硅光/铌酸锂光子芯片 · SPAD/SNSPD · GPU+CUDA</text>
+      <text x="58" y="430" font-size="11.5" font-family="monospace" fill="#a87c22">光做矩阵乘加 · GPU 做分支逻辑 —— 互补非替代</text>
+      <rect x="528" y="382" width="112" height="56" rx="8" fill="#fffdf8" stroke="#854F0B" stroke-width="0.5"/>
+      <text x="584" y="404" text-anchor="middle" font-size="11" font-family="monospace" fill="#854F0B">算力引擎</text>
+      <text x="584" y="422" text-anchor="middle" font-size="11" font-family="monospace" fill="#854F0B">（GPU）</text>
+      <text x="40" y="484" font-size="11.5" fill="#7c8a92">老师说「EEQT 底层」在物理实现上贴 L2–L3 是对的；在算力供应链上不能替代 L1 的 GPU。</text>
+      <text x="40" y="506" font-size="11" font-family="monospace" fill="#7c8a92">元宝原文："Quantum computers will have to use classical interfaces... Only EEQT is able to provide an effective framework."</text>
+    </svg>
+    <div class="note">关键洞察：光擅长大规模矩阵乘加（快、省电），GPU 擅长逻辑控制/编译/训练（成熟、通用），EEQT 把每次随机跳跃变成可审计可通信的事件流，大模型消费这些事件——这就是"量子世界如何向 AI 讲述自己"的母语。</div>
+  </div>
+
+  <div class="xplain">
+    <div class="pro"><span class="tag">专业术语</span>
+      <h4>分层：算力供应链 vs 语义接口</h4>
+      <p>L1 光子芯片承担矩阵乘加与特定采样；L1 GPU 承担逻辑控制与大模型训练。<b>L2–L3 EEQT</b> 把测量随机跳跃变成可审计事件流；L4 大模型消费事件形成母语。</p>
+      <p>异构分工的本质：<em>EEQT 不替代 GPU，而是给 GPU 之上加一层"量子事件语义"。</em></p>
+    </div>
+    <div class="lay"><span class="tag">大白话</span>
+      <h4>各司其职的一条流水线</h4>
+      <p>光子芯片像"算得快的手"，GPU 像"脑子"（管逻辑），EEQT 像"记录员"——每次量子世界跳一下，它就写一条日志，交给大模型这个"作家"去理解、去讲述。</p>
+      <p>你说"EEQT 是底层"，其实它贴在量子和经典<b>交界处</b>——正好是翻译最需要的 lugar。让它去干 GPU 的活，是找错了工种。</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 4 三代路线 ============ -->
+<section id="roadmap"><div class="wrap">
+  <h2><span class="no">04</span>三代组装路线（如果我是组装者，我会怎么做）</h2>
+  <p class="sub">M0 今天就能装（把软件栈磨熟），M1 换真光子协处理器做特定任务超越，M2 才是真水杯级愿景。</p>
+
+  <div class="fig">
+    <div class="cap">图 4 · 三代时间轴 —— 形态从桌面级逐级缩小到保温杯级</div>
+    <svg viewBox="0 0 680 360" width="100%" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>三代路线时间轴</title>
+      <defs><marker id="aw4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.6" stroke-linecap="round"/></marker></defs>
+      <line x1="70" y1="150" x2="620" y2="150" stroke="#a87c22" stroke-width="2" marker-end="url(#aw4)"/>
+      <text x="628" y="147" font-size="11" font-family="monospace" fill="#a87c22">时间 →</text>
+      <!-- M0 -->
+      <circle cx="130" cy="150" r="8" fill="#2c7a58" stroke="#fffdf8" stroke-width="2"/>
+      <rect x="52" y="168" width="156" height="150" rx="10" fill="#e9f2ec" stroke="#2c7a58" stroke-width="0.5"/>
+      <text x="130" y="190" text-anchor="middle" font-size="15" font-weight="700" fill="#04342C">M0 · 今天</text>
+      <text x="130" y="210" text-anchor="middle" font-size="11" font-family="monospace" fill="#2c7a58">桌面 / 饭盒级</text>
+      <!-- 画桌面盒 -->
+      <rect x="96" y="222" width="68" height="42" rx="4" fill="#fffdf8" stroke="#2c7a58" stroke-width="1"/>
+      <text x="130" y="249" text-anchor="middle" font-size="10" font-family="monospace" fill="#2c7a58">GPU+QRNG</text>
+      <text x="130" y="282" text-anchor="middle" font-size="10.5" fill="#47555f">把 L2–L4 软件栈磨熟</text>
+      <text x="130" y="300" text-anchor="middle" font-size="10" fill="#7c8a92">不是量子计算机</text>
+      <!-- M1 -->
+      <circle cx="350" cy="150" r="8" fill="#a87c22" stroke="#fffdf8" stroke-width="2"/>
+      <rect x="272" y="168" width="156" height="150" rx="10" fill="#f6efdc" stroke="#a87c22" stroke-width="0.5"/>
+      <text x="350" y="190" text-anchor="middle" font-size="15" font-weight="700" fill="#412402">M1 · 2–5 年</text>
+      <text x="350" y="210" text-anchor="middle" font-size="11" font-family="monospace" fill="#a87c22">收音机级 ~150 mm</text>
+      <rect x="332" y="222" width="36" height="42" rx="16" fill="#fffdf8" stroke="#a87c22" stroke-width="1"/>
+      <text x="350" y="249" text-anchor="middle" font-size="9" font-family="monospace" fill="#a87c22">光子</text>
+      <text x="350" y="282" text-anchor="middle" font-size="10.5" fill="#47555f">光子协处理器 + SPAD</text>
+      <text x="350" y="300" text-anchor="middle" font-size="10" fill="#7c8a92">特定任务超越</text>
+      <!-- M2 -->
+      <circle cx="570" cy="150" r="8" fill="#6b4a8f" stroke="#fffdf8" stroke-width="2"/>
+      <rect x="492" y="168" width="156" height="150" rx="10" fill="#f1ecf6" stroke="#6b4a8f" stroke-width="0.5"/>
+      <text x="570" y="190" text-anchor="middle" font-size="15" font-weight="700" fill="#26215C">M2 · 8–10 年</text>
+      <text x="570" y="210" text-anchor="middle" font-size="11" font-family="monospace" fill="#6b4a8f">保温杯 ~100 mm</text>
+      <rect x="554" y="222" width="32" height="42" rx="14" fill="#fffdf8" stroke="#6b4a8f" stroke-width="1"/>
+      <text x="570" y="249" text-anchor="middle" font-size="9" font-family="monospace" fill="#6b4a8f">水杯</text>
+      <text x="570" y="282" text-anchor="middle" font-size="10.5" fill="#47555f">通用光量子工作站</text>
+      <text x="570" y="300" text-anchor="middle" font-size="10" fill="#7c8a92">愿景 · 确信度低</text>
+      <text x="340" y="126" text-anchor="middle" font-size="11" font-family="monospace" fill="#7c8a92">探测器低温是唯一硬拦路虎 →</text>
+      <text x="340" y="348" text-anchor="middle" font-size="11" fill="#7c8a92">M0 磨软件栈 · M1 换硬件做专项超越 · M2 集成革命才到水杯级</text>
+    </svg>
+  </div>
+
+  <h3>M0 · 今天就能装（桌面/饭盒级，"母语原型机"）</h3>
+  <p>把 EEQT 母语流水线真跑起来，不等量子硬件——这是我现在就会动手的版本。</p>
+  <table>
+    <thead><tr><th style="width:18%">部件</th><th style="width:42%">选型</th><th>理由</th></tr></thead>
+    <tbody>
+      <tr><td>算力</td><td>ThinkPad + GPU（或国产 ARM 板）</td><td>跑 eeqt_core 引擎与仿真，不装量子芯片</td></tr>
+      <tr><td>真随机源</td><td>硅臻 QRNG-10（4×4 mm 模块）</td><td>毫米级、已量产、提供物理 ε 入口</td></tr>
+      <tr><td>引擎</td><td><span class="mono">eeqt_core.py + eeqt_falsify.py + eeqt_butterfly_bridge.py</span></td><td>已建成并复现零差异</td></tr>
+      <tr><td>前端</td><td><span class="mono">Hofstadter蝴蝶_交互实验台.html + 蝴蝶抹平_EEQT对接实验.html</span></td><td>浏览器实时算，无需后端</td></tr>
+      <tr><td>事件层</td><td>Winskel 带标签事件结构（桥命题严格 note 已写）</td><td>把 PDP 跳跃存成可重放事件流</td></tr>
+      <tr><td>验收判据</td><td>证伪台 PASS/FAIL/OPEN；ε 扫描 F1/F2；QRNG 过 NIST 统计</td><td>全部可复跑</td></tr>
+    </tbody>
+  </table>
+  <p><b>诚实边界：</b>M0 <b>不是量子计算机</b>——量子性只体现在 QRNG 真随机源。价值是把 L2–L4 软件栈磨熟，等 L1 硬件到位即可接上。</p>
+
+  <h3>M1 · 2–5 年（保温杯雏形，"光子协处理器"）</h3>
+  <table>
+    <thead><tr><th style="width:18%">部件</th><th style="width:42%">选型</th><th>瓶颈与对策</th></tr></thead>
+    <tbody>
+      <tr><td>光计算</td><td>薄膜铌酸锂/硅光 MZI 阵列（参考 PACE 64×64）</td><td>矩阵乘加、Ising 采样，配 GPU 做控制</td></tr>
+      <tr><td>光量子</td><td>室温 MBQC 图态芯片（硅臻/Rotonium 路线）</td><td>4–16 有效比特，量子模拟与抹平对账</td></tr>
+      <tr><td>探测</td><td>SPAD（室温，效率 20–30%）</td><td>效率低 → 多路复用+后处理补偿</td></tr>
+      <tr><td>光源/控制</td><td>片上激光 + FPGA 相位锁定</td><td>光电转换占延迟四成，须光电共封装</td></tr>
+      <tr><td>形态</td><td>圆柱形 ~150 mm（收音机大小）</td><td>还不是保温杯——探测器低温是唯一硬拦路虎</td></tr>
+    </tbody>
+  </table>
+  <p><b>验收判据：</b>①特定任务（Ising/采样）wall-clock 优于同功耗 GPU；②ε 抹平曲线与实测能谱对账；③事件流可重放。<b>不报"全面超越"。</b></p>
+
+  <h3>M2 · 8–10 年（真·水杯级，愿景）</h3>
+  <p>圆柱保温杯大小（~100 mm 直径）、通用光量子工作站。关键使能：①紧凑低温做到 100 mm 内（Xanadu-Bluefors）或室温探测效率突破 90%；②光电共封装成熟；③薄膜铌酸锂成主流；④MBQC 百万比特兑现（2032–33）。五比特/HaPPY 编码在此层嵌入物理层做容错——"时空即纠错码"的工程兑现。<b>确信度低（远景）。</b></p>
+</div></section>
+
+<!-- ============ 5 五比特三层答案 ============ -->
+<section id="fiveq"><div class="wrap">
+  <h2><span class="no">05</span>正面回答："用五比特为基是否可以不需要纠错？"</h2>
+  <p class="sub">这是老师问题的理论核心。三层答案：字面层不能、结构层直觉对一半、极限层要额外提醒。</p>
+
+  <div class="fig">
+    <div class="cap">图 5 · 五比特完美码与 HaPPY 六腿张量 —— 纠错嵌入几何，但不消除退相干</div>
+    <svg viewBox="0 0 680 400" width="100%" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>五比特码与HaPPY张量</title>
+      <!-- 左：[[5,1,3]] -->
+      <text x="170" y="30" text-anchor="middle" font-size="13" font-weight="700" fill="#1b2430">[[5,1,3]] 完美码</text>
+      <text x="170" y="50" text-anchor="middle" font-size="11" font-family="monospace" fill="#7c8a92">5 物理比特 → 1 逻辑比特</text>
+      <!-- 5 个小圆 -->
+      <g fill="#e8f1f6" stroke="#1f6f9f" stroke-width="1">
+        <circle cx="100" cy="92" r="17"/><circle cx="170" cy="92" r="17"/><circle cx="240" cy="92" r="17"/>
+        <circle cx="135" cy="132" r="17"/><circle cx="205" cy="132" r="17"/>
+      </g>
+      <g font-size="11" font-family="monospace" fill="#1f6f9f" text-anchor="middle">
+        <text x="100" y="96">q1</text><text x="170" y="96">q2</text><text x="240" y="96">q3</text>
+        <text x="135" y="136">q4</text><text x="205" y="136">q5</text>
+      </g>
+      <path d="M170 152 L170 182" fill="none" stroke="#a87c22" stroke-width="1.5"/>
+      <rect x="130" y="184" width="80" height="40" rx="8" fill="#f6efdc" stroke="#a87c22" stroke-width="0.8"/>
+      <text x="170" y="210" text-anchor="middle" font-size="12" font-family="monospace" fill="#854F0B">1 逻辑比特</text>
+      <text x="170" y="246" text-anchor="middle" font-size="11" fill="#2c7a58">抗任意 2 擦除 · Singleton 界取等号</text>
+      <text x="170" y="266" text-anchor="middle" font-size="10.5" fill="#7c8a92">"完美"= 开销最小，非零开销</text>
+      <!-- 中间箭头 -->
+      <path d="M292 130 L388 130" fill="none" stroke="#a87c22" stroke-width="1.8"/>
+      <text x="340" y="120" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#a87c22">就是它</text>
+      <!-- 右：HaPPY 六腿张量 -->
+      <text x="520" y="30" text-anchor="middle" font-size="13" font-weight="700" fill="#1b2430">HaPPY 六腿完美张量</text>
+      <text x="520" y="50" text-anchor="middle" font-size="11" font-family="monospace" fill="#7c8a92">任意 ≤3 腿等距 → 编码即纠错</text>
+      <!-- 六边形张量 -->
+      <polygon points="520,90 552,108 552,144 520,162 488,144 488,108" fill="#f1ecf6" stroke="#6b4a8f" stroke-width="1.4"/>
+      <text x="520" y="132" text-anchor="middle" font-size="11" font-family="monospace" fill="#6b4a8f">张量</text>
+      <!-- 六条腿 -->
+      <g stroke="#6b4a8f" stroke-width="1.4">
+        <line x1="520" y1="90" x2="520" y2="62"/><line x1="552" y1="108" x2="578" y2="93"/>
+        <line x1="552" y1="144" x2="578" y2="159"/><line x1="520" y1="162" x2="520" y2="190"/>
+        <line x1="488" y1="144" x2="462" y2="159"/><line x1="488" y1="108" x2="462" y2="93"/>
+      </g>
+      <g fill="#fffdf8" stroke="#6b4a8f" stroke-width="1">
+        <circle cx="520" cy="58" r="5"/><circle cx="582" cy="91" r="5"/><circle cx="582" cy="161" r="5"/>
+        <circle cx="520" cy="194" r="5"/><circle cx="458" cy="161" r="5"/><circle cx="458" cy="91" r="5"/>
+      </g>
+      <text x="520" y="222" text-anchor="middle" font-size="11" fill="#2c7a58">丢 3 条腿，信息仍可从其余腿重建</text>
+      <text x="520" y="242" text-anchor="middle" font-size="10.5" fill="#7c8a92">无需额外 syndrome 测量-反馈电路</text>
+      <!-- 底部：极限层警告 -->
+      <rect x="40" y="290" width="600" height="86" rx="10" fill="#f7eae8" stroke="#a8352e" stroke-width="0.6"/>
+      <text x="58" y="314" font-size="13" font-weight="700" fill="#a8352e">⚠ 极限层提醒：纠错码 ≠ 抗退相干</text>
+      <text x="58" y="338" font-size="12" fill="#412402">ε 抹平实验：即使有完美编码，ε&gt;0 仍把能谱精细结构抹平（ε=0.95 抹掉 94.3%）。</text>
+      <text x="58" y="360" font-size="11.5" fill="#7c8a92">纠错码保"编码子空间内的信息"，退相干抹"相干性/能隙可分辨度"——两套独立工程，不能互相替代。</text>
+    </svg>
+  </div>
+
+  <h3>（1）字面层：不能</h3>
+  <p><span class="mono">[[5,1,3]]</span> 是纠错码，不是免错码。5 物理比特编 1 逻辑比特、抗任意 2 擦除——这 4 个额外比特<b>就是纠错开销</b>。量子 Singleton 界 <span class="mono">n−k ≥ 2(d−1)</span> 对 5,1,3 取等号，叫"完美码"是因为开销最小，不是因为零开销。</p>
+
+  <h3>（2）结构层：老师直觉对了一半</h3>
+  <p>在 HaPPY 全息码里，容错性<b>不需要额外的 syndrome 测量-反馈电路</b>——六腿完美张量的"任意 ≤3 腿等距"性质，让同一个体算符能从多个边界区域重建。<b>纠错被编码进了几何结构本身。</b>所以正确说法是：不需要"额外"的纠错，因为编码即纠错。这是 ADH 2014 / HaPPY 2015 最深的洞察，也是"时空本身就是纠错码跑出来的样子"的准确含义。</p>
+
+  <h3>（3）极限层——额外提醒</h3>
+  <p>五比特/HaPPY 保护的是<b>逻辑信息免受擦除</b>，但它<b>不消除环境耦合</b>。ε 抹平实验证明：即使有完美编码，测量耦合 ε&gt;0 依然会把能谱精细结构抹平（ε=0.95 抹掉 94.3%）。原因是纠错码保的是"编码子空间内的信息"，而退相干抹的是"相干性/能隙可分辨度"——两个不同层面。所以水杯机里，纠错码和抗退相干是两套独立工程，不能互相替代。</p>
+
+  <div class="xplain">
+    <div class="pro"><span class="tag">专业术语</span>
+      <h4>纠错 = 几何等距，不是零开销</h4>
+      <p><span class="mono">[[5,1,3]]</span> 满足量子 Singleton 界取等号：把 4 个冗余比特"织进"编码的张量几何。HaPPY 六腿张量的 <em>任意 ≤3 腿等距</em>，使体算符可从多边界重建。</p>
+      <p>但编码距离 d=3 只保子空间内逻辑信息；<b>退相干是环境耦合导致的相干性损失</b>，属另一自由度——完美码对此无能为力。</p>
+    </div>
+    <div class="lay"><span class="tag">大白话</span>
+      <h4>不是"不用纠错"，是"纠错白送"</h4>
+      <p>五个士兵扛一个情报，丢两个还能拼回来——多出来的四个就是"备份"，怎么会是不需要纠错呢？但妙处在于：这个备份<b>一开始就编进了队形</b>，不用再额外派人检查谁掉了——队形本身抗摔。这就是"时空即纠错码"。</p>
+      <p><b>但手电筒乱照照样糊掉图案</b>——纠错码管不了"被照花"这件事。所以别指望有了完美队形就不用管环境干扰，这是两码事。</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 6 执行清单 ============ -->
+<section id="checklist"><div class="wrap">
+  <h2><span class="no">06</span>我作为组装者的执行清单（现在就做，不等硬件）</h2>
+  <p class="sub">明确"会做的"与"不会做的"——诚实边界比漂亮承诺更重要。</p>
+
+  <table>
+    <thead><tr><th style="width:10%">序</th><th style="width:40%">动作</th><th style="width:26%">产出</th><th>状态</th></tr></thead>
+    <tbody>
+      <tr><td>P0-1</td><td>磨 M0 软件栈：QRNG → 事件流 → 母语码本最小闭环</td><td><span class="mono">qifs_codebook.py</span> 原型</td><td><span class="tag t-num">✅ 已建·自检 5/5</span></td></tr>
+      <tr><td>P0-2</td><td>给引擎补绝对跳跃时刻 t 字段，激活证伪台 T4</td><td><span class="mono">eeqt_core.sample_pdp()</span></td><td><span class="tag t-num">✅ T4 已 OPEN→PASS</span></td></tr>
+      <tr><td>P0-3</td><td>ε 抹平接真实实验能谱，标定 Γ∝artanh ε 系数 s</td><td>F3 从 OPEN 转 PASS/FAIL</td><td><span class="tag t-open">待做·需实验数据</span></td></tr>
+      <tr><td>P0-4</td><td>采购/评估 QRNG-10 模块，实测真随机统计</td><td>硬件在环报告</td><td><span class="tag t-open">待做·需硬件</span></td></tr>
+      <tr><td>P0-5</td><td>画 L1–L4 分层架构图进讲解网页</td><td>架构 SVG（图 3）</td><td><span class="tag t-num">✅ 完成</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout red"><div class="lbl">我不会做的四条</div>
+    <p>① 宣称 M0 是量子计算机；② 在没接真实 LLM 前报 E11 效率"更快"；③ 把玄学推演（意识 RNG/天眼通）写进证明链；④ 伪造"015"型号。</p>
+  </div>
+</div></section>
+
+<!-- ============ 7 证据总表 ============ -->
+<section id="evidence"><div class="wrap">
+  <h2><span class="no">07</span>证据状态总表（SOUL A5 确信度）</h2>
+  <p class="sub">事实、论文主张、可证伪假设、预测、查无实据——分开标注，不混为一谈。</p>
+
+  <div class="fig">
+    <div class="cap">图 6 · 证据确信度光谱 —— 从"事实"到"查无实据"</div>
+    <svg viewBox="0 0 680 300" width="100%" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>证据确信度光谱</title>
+      <!-- 光谱条 5 段 -->
+      <rect x="40" y="60" width="120" height="34" rx="6" fill="#2c7a58"/>
+      <rect x="164" y="60" width="120" height="34" rx="6" fill="#1f6f9f"/>
+      <rect x="288" y="60" width="120" height="34" rx="6" fill="#a87c22"/>
+      <rect x="412" y="60" width="120" height="34" rx="6" fill="#a8743c"/>
+      <rect x="536" y="60" width="104" height="34" rx="6" fill="#a8352e"/>
+      <g font-size="12" fill="#fffdf8" text-anchor="middle" font-weight="700">
+        <text x="100" y="82">事实</text><text x="224" y="82">论文主张</text><text x="348" y="82">可证伪假设</text>
+        <text x="472" y="82">预测</text><text x="588" y="82">查无实据</text>
+      </g>
+      <text x="100" y="116" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#2c7a58">高确信</text>
+      <text x="588" y="116" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#a8352e">低/无</text>
+      <!-- 引线：命题贴到对应段 -->
+      <g stroke="#7c8a92" stroke-width="1" stroke-dasharray="3 3">
+        <line x1="100" y1="94" x2="100" y2="140"/><line x1="224" y1="94" x2="224" y2="166"/>
+        <line x1="348" y1="94" x2="348" y2="140"/><line x1="472" y1="94" x2="472" y2="166"/>
+        <line x1="588" y1="94" x2="588" y2="140"/>
+      </g>
+      <g font-size="10.5" fill="#47555f">
+        <text x="100" y="156" text-anchor="middle">5 比特码 · HH</text>
+        <text x="100" y="172" text-anchor="middle">光子芯片毫米级</text>
+        <text x="224" y="182" text-anchor="middle">Lindblad↔PDP</text>
+        <text x="348" y="156" text-anchor="middle">Γ=0.5·artanh ε</text>
+        <text x="348" y="172" text-anchor="middle">抹平蝴蝶</text>
+        <text x="472" y="182" text-anchor="middle">水杯级 8–10 年</text>
+        <text x="588" y="156" text-anchor="middle">"光子信号</text>
+        <text x="588" y="172" text-anchor="middle">计算器 015"</text>
+      </g>
+      <rect x="40" y="212" width="600" height="60" rx="8" fill="#fbf8f1" stroke="#a87c22" stroke-width="0.5"/>
+      <text x="58" y="236" font-size="11.5" fill="#412402">EEQT 母语超越 GPU+CUDA = <tspan font-family="monospace" fill="#a8352e">概念错配</tspan>（见 §3 分层），既非"事实"也非"预测"，而是范畴错误。</text>
+      <text x="58" y="258" font-size="11" fill="#7c8a92">F1/F2 实跑 PASS；F3 待真实实验标定 → 可证伪假设保持 OPEN，不硬凑结论。</text>
+    </svg>
+  </div>
+
+  <table>
+    <thead><tr><th style="width:52%">命题</th><th style="width:16%">判定</th><th>确信度 / 来源</th></tr></thead>
+    <tbody>
+      <tr><td>5 比特 <span class="mono">[[5,1,3]]</span> 是最小完美纠错码、抗 2 擦除</td><td><span class="tag t-src">事实</span></td><td>高 · ECC Zoo + Harlow 讲义</td></tr>
+      <tr><td>HaPPY 六腿张量 = 五比特码，纠错嵌入几何</td><td><span class="tag t-src">事实</span></td><td>高 · 两网页原文 + 论文</td></tr>
+      <tr><td>Lindblad↔PDP 一一对应 → 单轨迹接口</td><td><span class="tag t-src">事实</span></td><td>高 · QIFS 论文 §5.3 原文</td></tr>
+      <tr><td>EEQT 是量子-经典接口唯一有效框架</td><td><span class="tag t-th">论文主张</span></td><td>中高 · 元宝引用，未逐字核全篇</td></tr>
+      <tr><td><span class="mono">Γ(ε)=0.5·artanh(ε)</span> 抹平蝴蝶</td><td><span class="tag t-open">可证伪假设</span></td><td>中 · F1/F2 PASS，F3 待标定</td></tr>
+      <tr><td>光子芯片可毫米级室温运行</td><td><span class="tag t-src">事实</span></td><td>高 · Rotonium/硅臻实测</td></tr>
+      <tr><td>水杯级整机 8–10 年可达</td><td><span class="tag t-open">预测</span></td><td>低 · 产业路线图，非物理定律</td></tr>
+      <tr><td>"光子信号计算器 015" 是具体产品</td><td><span class="tag t-warn">查无实据</span></td><td>— · 全网无命中，待老师给出处</td></tr>
+      <tr><td>EEQT 母语大模型超越 GPU+CUDA</td><td><span class="tag t-warn">概念错配</span></td><td>高 · 分层论证见 §3</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout green"><div class="lbl">一句话收束</div>
+    <p>方向是对的，但请把它理解为<b>"光子算力 + EEQT 事件语义 + 母语大模型"的异构分层</b>，而不是"EEQT 发动机取代 GPU"。五比特不是免纠错，是纠错白送；保温杯不是今天，是三代路线里的 M2。每一条都有可复跑的判据与诚实边界。</p>
+  </div>
+  <a class="backlink" href="EEQT专业讲解.html">← 返回 EEQT 与 AI 母语主讲解（含 Winskel 分工、数学骨架、蝴蝶→EEQT 过渡）</a>
+</div></section>
+
+<footer><div class="wrap">
+  Mini 水杯工作站 · 专业讲解 ｜ 生成 2026-11-23 ｜ 配套方案书 <span class="mono">Mini水杯工作站_光子信号计算器与EEQT母语架构_v1.md</span><br>
+  关联：<span class="mono">EEQT专业讲解.html</span> · <span class="mono">Hofstadter蝴蝶_交互实验台.html</span> · <span class="mono">蝴蝶抹平_EEQT对接实验.html</span> · <span class="mono">霍夫施塔特蝴蝶到EEQT_过渡路线.md</span><br>
+  所有结论标注确信度与出处；事实 / 主张 / 假设 / 预测 / 查无实据分开标注，OPEN 不掩盖。
+</div></footer>
+
+<script>
+const secs=["concl","correct","hardware","arch","roadmap","fiveq","checklist","evidence"].map(id=>document.getElementById(id));
+const links=[...document.querySelectorAll("nav.tabs a")];
+window.addEventListener("scroll",()=>{
+  let cur=0; secs.forEach((s,i)=>{if(s&&s.getBoundingClientRect().top<150)cur=i;});
+  links.forEach((a,i)=>a.classList.toggle("on",i===cur));
+},{passive:true});
+</script>
+</body>
+</html>
