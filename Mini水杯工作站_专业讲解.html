@@ -127,7 +127,7 @@ footer{padding:36px 0 60px;color:var(--ink3);font-size:12.5px;font-family:var(--
 <nav class="tabs"><div class="wrap">
   <a href="#concl">0 · 三句话</a><a href="#correct">1 · 纠偏</a><a href="#hardware">2 · 硬件现实</a>
   <a href="#arch">3 · 四层架构</a><a href="#roadmap">4 · 三代路线</a><a href="#fiveq">5 · 五比特答案</a>
-  <a href="#checklist">6 · 执行清单</a><a href="#evidence">7 · 证据总表</a>
+  <a href="#checklist">6 · 执行清单</a><a href="#evidence">7 · 证据总表</a><a href="#seg">8 · SEG 接入</a>
   <a href="EEQT专业讲解.html" style="color:var(--purple)">← 返回主讲解</a>
 </div></nav>
 
@@ -606,14 +606,158 @@ footer{padding:36px 0 60px;color:var(--ink3);font-size:12.5px;font-family:var(--
   <a class="backlink" href="EEQT专业讲解.html">← 返回 EEQT 与 AI 母语主讲解（含 Winskel 分工、数学骨架、蝴蝶→EEQT 过渡）</a>
 </div></section>
 
+<!-- ============ 8 SEG 接入 ============ -->
+<section id="seg"><div class="wrap">
+  <h2><span class="no">08</span>SEG 接入：老师命题「瑟尔机供能/供冷/供光」的诚实核算</h2>
+  <p class="sub">老师 11:14 命题：把 SEG 做到水杯盖大，提供电能 + 冷源 + 光源，制冷瓶颈就解决了。逐条核算后：<b>成立一半，恰好是最值钱那一半——冷源里 4K 这一级是真接口，电与光不成立。</b></p>
+
+  <div class="callout"><div class="lbl">三句话结论</div>
+    <p>① <b>冷源</b>：SEG 4K 冷端够得着 SNSPD 与 4K 法兰，<b>能砍掉一整级</b>；但离超导比特的 10 mK 差 <b>400 倍</b>，稀释制冷机省不掉。② <b>电能</b>：全是研发方宣称，无第三方功率复现。③ <b>光源</b>：光链两头断，SEG 根本不发光。微型化：几何能缩，物理性能没测过。</p>
+  </div>
+
+  <div class="fig">
+    <div class="cap">图 7 · 温度阶梯：SEG 够得着哪一级（对数尺度，项目审计口径）</div>
+    <svg viewBox="0 0 680 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SEG 温度阶梯与量子计算接口">
+      <defs><linearGradient id="stairbg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e8f1f6"/><stop offset="0.55" stop-color="#f6efdc"/><stop offset="1" stop-color="#f7eae8"/></linearGradient></defs>
+      <rect x="30" y="40" width="620" height="205" rx="10" fill="url(#stairbg)" stroke="rgba(27,36,48,.13)"/>
+      <!-- 四档竖线 -->
+      <g font-family="Consolas,monospace" font-size="11" fill="#47555f">
+        <line x1="95" y1="60" x2="95" y2="215" stroke="#1f6f9f" stroke-width="2"/>
+        <line x1="270" y1="60" x2="270" y2="215" stroke="#a87c22" stroke-width="2" stroke-dasharray="5 4"/>
+        <line x1="450" y1="60" x2="450" y2="215" stroke="#2c7a58" stroke-width="3"/>
+        <line x1="610" y1="60" x2="610" y2="215" stroke="#a8352e" stroke-width="2" stroke-dasharray="5 4"/>
+        <circle cx="95" cy="72" r="6" fill="#1f6f9f"/><circle cx="270" cy="72" r="6" fill="#a87c22"/>
+        <circle cx="450" cy="72" r="6" fill="#2c7a58"/><circle cx="610" cy="72" r="6" fill="#a8352e"/>
+        <text x="95" y="100" text-anchor="middle" font-size="14" fill="#1b2430" font-weight="bold">300 K</text>
+        <text x="95" y="118" text-anchor="middle">室温</text>
+        <text x="270" y="100" text-anchor="middle" font-size="14" fill="#1b2430" font-weight="bold">227 K</text>
+        <text x="270" y="118" text-anchor="middle">实测自持档</text>
+        <text x="450" y="100" text-anchor="middle" font-size="14" fill="#1b2430" font-weight="bold">4 K</text>
+        <text x="450" y="118" text-anchor="middle">过载宣称档</text>
+        <text x="610" y="100" text-anchor="middle" font-size="14" fill="#1b2430" font-weight="bold">10 mK</text>
+        <text x="610" y="118" text-anchor="middle">超导比特</text>
+      </g>
+      <!-- 差距标注 -->
+      <g font-family="Consolas,monospace" font-size="10.5" fill="#7c8a92">
+        <text x="182" y="150" text-anchor="middle">×22 700</text>
+        <text x="360" y="150" text-anchor="middle">继续过载</text>
+        <text x="530" y="150" text-anchor="middle">×400</text>
+      </g>
+      <!-- 够得着 / 够不着 -->
+      <g font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="11.5">
+        <rect x="300" y="178" width="238" height="50" rx="7" fill="#e9f2ec" stroke="#2c7a58"/>
+        <text x="419" y="197" text-anchor="middle" font-size="11" fill="#2c7a58" font-weight="bold">✅ 够得着 SNSPD / 4K 法兰</text>
+        <text x="419" y="216" text-anchor="middle" fill="#47555f">→ 能砍掉 4K 法兰整级</text>
+        <rect x="546" y="178" width="126" height="50" rx="7" fill="#f7eae8" stroke="#a8352e"/>
+        <text x="609" y="197" text-anchor="middle" fill="#a8352e" font-weight="bold">✗ 够不着</text>
+        <text x="609" y="216" text-anchor="middle" fill="#47555f">mK 混合室</text>
+      </g>
+      <text x="340" y="270" text-anchor="middle" font-family="Consolas,monospace" font-size="11" fill="#7c8a92">"自冷"有原文（300K→227K）｜"超导"没有 —— 原文只说造加速器需要室温超导材料</text>
+      <text x="340" y="295" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="12" fill="#1b2430" font-weight="bold">结论不是"整机顶替"，是"能省掉一整级"</text>
+    </svg>
+    <div class="note">出处：<span class="mono">24_searl_SEG/SEG_AHCS_量子计算接口审计.html</span> §3b；227K 为 Roschin-Godin 仿制品实测，4K 为真机自述（待第 9 条冷端测温判据）。</div>
+  </div>
+
+  <div class="xplain">
+    <div class="pro"><span class="tag">专业术语</span>
+      <p><b>温度标尺分段</b>：227 K（自持起点）→ 4 K（过载宣称）→ 10 mK（超导比特工作点）。判据是热光子数 n̄=1/(e^(hν/kT)−1)：5 GHz 模式在 227 K 下 n̄ 巨大，4 K 下仍远大于 1，只有到 10 mK 才足够低。</p>
+      <p>mK 混合室依赖 <sup>3</sup>He/<sup>4</sup>He 稀释制冷，SEG 的 4 K 冷端只能替代其前面的 4 K 法兰级，不能替代稀释制冷机本身。</p>
+    </div>
+    <div class="lay"><span class="tag">大白话</span>
+      <p>把量子芯片想成一个<b>怕热的精密仪器</b>，它要在零下 273.14℃ 才肯干活。SEG 吹的"冷风"大概是零下 269℃——听起来很冷，但还差了 400 倍。<b>它能替你省掉冰箱的第一层，但最里面那层还是得靠专门的稀释冰箱。</b></p>
+      <p>老师把"自冷"和"超导"当一件事说了，其实原文只讲了这个机器自己会变冷，没说它能让东西超导。</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:30px">三条接口逐条判定</h3>
+  <table>
+    <thead><tr><th>老师设想</th><th>判定</th><th>硬依据</th></tr></thead>
+    <tbody>
+      <tr><td>SEG 供<b>冷</b> → 解决制冷瓶颈</td><td><span class="tag t-ok">部分成立</span></td><td>4K 够得着 SNSPD/HEMT/4K 法兰，能砍一整级；10mK 差 400 倍，稀释制冷机保留</td></tr>
+      <tr><td>SEG 供<b>电</b> → 替代供电</td><td><span class="tag t-warn">宣称未证实</span></td><td>15kW→MW→GW 全是研发方口径；公开渠道无第三方工业级功率复现</td></tr>
+      <tr><td>SEG 供<b>光</b> → 提供光源</td><td><span class="tag t-no">不成立</span></td><td>光内存→离子阱链"两头都断"；唯一算得清的接口还是那个 4K 冷端</td></tr>
+      <tr><td>SEG 缩到<b>水杯盖</b>大</td><td><span class="tag t-warn">几何可缩/物理未知</span></td><td>Wolfram 12 类几何约束可反解任意尺寸；功率/冷量随尺度如何标度无任何实测</td></tr>
+    </tbody>
+  </table>
+
+  <div class="fig">
+    <div class="cap">图 8 · 水杯盖 SEG 概念与冷量量级核算（本报告推算）</div>
+    <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="水杯盖尺寸 SEG 三环与冷量核算">
+      <rect x="20" y="28" width="250" height="252" rx="10" fill="#fffdf8" stroke="rgba(27,36,48,.13)"/>
+      <text x="145" y="52" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="12" fill="#1b2430" font-weight="bold">三环定子 + 滚筒（俯视概念）</text>
+      <!-- 三同心环 -->
+      <circle cx="145" cy="155" r="88" fill="none" stroke="#a87c22" stroke-width="9"/>
+      <circle cx="145" cy="155" r="64" fill="none" stroke="#1f6f9f" stroke-width="8"/>
+      <circle cx="145" cy="155" r="40" fill="none" stroke="#2c7a58" stroke-width="7"/>
+      <!-- 滚筒小圆 -->
+      <g fill="#6b4a8f">
+        <circle cx="145" cy="67" r="5"/><circle cx="208" cy="111" r="5"/><circle cx="208" cy="199" r="5"/>
+        <circle cx="145" cy="243" r="5"/><circle cx="82" cy="199" r="5"/><circle cx="82" cy="111" r="5"/>
+      </g>
+      <g fill="#1f6f9f">
+        <circle cx="145" cy="91" r="4"/><circle cx="192" cy="118" r="4"/><circle cx="192" cy="192" r="4"/>
+        <circle cx="145" cy="219" r="4"/><circle cx="98" cy="192" r="4"/><circle cx="98" cy="118" r="4"/>
+      </g>
+      <!-- 尺寸标注 -->
+      <text x="145" y="262" text-anchor="middle" font-family="Consolas,monospace" font-size="10.5" fill="#a87c22">Ø≈7cm · num 12/22/32（滚筒数）</text>
+      <!-- 右侧数字卡 -->
+      <g font-family="Consolas,monospace">
+        <rect x="292" y="28" width="368" height="52" rx="8" fill="#e9f2ec" stroke="#2c7a58"/>
+        <text x="308" y="48" font-size="11" fill="#47555f">4K 冷端从空气吸热上限</text>
+        <text x="308" y="68" font-size="16" fill="#2c7a58" font-weight="bold">3.4 kW/m² × 0.00385 m² ≈ 13 W</text>
+        <rect x="292" y="90" width="176" height="52" rx="8" fill="#e8f1f6" stroke="#1f6f9f"/>
+        <text x="306" y="109" font-size="10.5" fill="#47555f">SNSPD/离子阱 4K 负载</text>
+        <text x="306" y="129" font-size="14" fill="#1f6f9f" font-weight="bold">0.2 – 1.0 W</text>
+        <rect x="484" y="90" width="176" height="52" rx="8" fill="#f6efdc" stroke="#a87c22"/>
+        <text x="498" y="109" font-size="10.5" fill="#47555f">余量</text>
+        <text x="498" y="129" font-size="14" fill="#a87c22" font-weight="bold">13 – 65 倍</text>
+        <rect x="292" y="152" width="368" height="46" rx="8" fill="#f7eae8" stroke="#a8352e"/>
+        <text x="306" y="171" font-size="10.5" fill="#a8352e" font-weight="bold">⚠ 必须真空 + 多层绝热</text>
+        <text x="306" y="188" font-size="10" fill="#47555f">4K 表面在 1atm 空气挂液空霜（N₂ 77K / O₂ 90K）</text>
+        <rect x="292" y="208" width="368" height="48" rx="8" fill="#fbf8f1" stroke="rgba(27,36,48,.13)"/>
+        <text x="306" y="227" font-size="10.5" fill="#47555f">内部损耗预算（小型 4K 制冷机 COP=1/1400）</text>
+        <text x="306" y="245" font-size="15" fill="#a8352e" font-weight="bold">&lt; 0.07%　—　超过则制冷机吃掉全部输出</text>
+      </g>
+    </svg>
+    <div class="note">13W 为本报告量级推算（<span class="mono">4K 吸热上限 3.4 kW/m² × 水杯盖面积</span>）；50W@4K 为项目审计中 SEG 侧假定值。两者皆为理论上限，未计实测损耗，OPEN。</div>
+  </div>
+
+  <div class="xplain">
+    <div class="pro"><span class="tag">专业术语</span>
+      <p><b>几何可缩 ≠ 性能可缩</b>：Wolfram 程序用 <span class="mono">Reduce[And@@conds, Reals]</span> 对 12 类约束（<span class="mono">Bh=(Yh+a)b</span>、<span class="mono">BR=num·n·Yr/2</span>、嵌套间隙等）反解三环全部尺寸，给定目标直径即可生成水杯盖构型。</p>
+      <p>但磁极数论优化与几何尺寸是<b>两个正交维度</b>，且"功率/冷量随特征尺度的标度律"在本地全部资料中无实测、无推导——这是真 OPEN，不能由几何可缩推出性能可缩。</p>
+    </div>
+    <div class="lay"><span class="tag">大白话</span>
+      <p>做小这件事，<b>画图没问题</b>——现成程序输入"我要一个杯盖大的"，它就把三圈磁环和滚筒的尺寸全算出来，跟缩放图纸一样。</p>
+      <p>但<b>图画得小，不等于劲头还在</b>。大机器能发多少电、能多冷，缩到杯盖后还剩多少？没人量过。这就像把水电站缩小成茶杯，形状对了，水不会自己转起来。</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:30px">不必争论，直接判死：沿用项目「十道门槛」</h3>
+  <table>
+    <thead><tr><th>#</th><th>实验</th><th>判死值</th><th>时长</th></tr></thead>
+    <tbody>
+      <tr><td>9</td><td><b>冷端测温</b>：热电偶/红外贴内核 + 露点仪测周围水汽</td><td>真 4K ⟹ 必挂液空霜、水汽凝华成雪、局部气压骤降；任一缺失 ⟹ 是磁风/蒸发/体感，不是 4K</td><td>30 分钟</td></tr>
+      <tr><td>10</td><td><b>接真负载</b>：输出接可测负载，1 kW 逐级加</td><td>若最大持续输出仍个位数 kW ⟹ 大功耗主张无工程对应物</td><td>1 天</td></tr>
+      <tr><td>3</td><td><b>能量收支</b>：同时量输入（含稳速线圈）/输出/房间温升</td><td>输出 &gt; 输入时必须找到同量级热汇；找不到 ⟹ 计量错误</td><td>1 小时</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout green"><div class="lbl">与硬件尺寸图（老师截图）的关系</div>
+    <p>截图圈出的红条区里，SEG 接入后的诚实预期是：<b>桌面稀释制冷 150×80cm → 可砍掉 4K 法兰级，体积功耗下降，但 mK 混合室与稀释机本体保留</b>；SNSPD 需 1–2K，SEG 4K 仍需再降一级；室温拓扑探测器（效率 5–10%）与 SEG 无关。散热侧证据最硬的其实是<b>渠氏热超导</b>（SRI 测试 + 广州石化案例）——分工应是 <b>SEG 管低温级、渠氏管常温热管理</b>。</p>
+  </div>
+
+  <p style="margin-top:18px">完整逐条论证与出处见 <a href="SEG接入Mini水杯工作站_诚实评估_v1.md">SEG接入Mini水杯工作站_诚实评估_v1.md</a>；溯源链：<span class="mono">AAA_跨界总入口_总网页.html</span> → ⑥瑟尔 SEG。</p>
+</div></section>
+
 <footer><div class="wrap">
   Mini 水杯工作站 · 专业讲解 ｜ 生成 2026-11-23 ｜ 配套方案书 <span class="mono">Mini水杯工作站_光子信号计算器与EEQT母语架构_v1.md</span><br>
-  关联：<span class="mono">EEQT专业讲解.html</span> · <span class="mono">Hofstadter蝴蝶_交互实验台.html</span> · <span class="mono">蝴蝶抹平_EEQT对接实验.html</span> · <span class="mono">霍夫施塔特蝴蝶到EEQT_过渡路线.md</span><br>
+  关联：<span class="mono">EEQT专业讲解.html</span> · <span class="mono">Hofstadter蝴蝶_交互实验台.html</span> · <span class="mono">蝴蝶抹平_EEQT对接实验.html</span> · <span class="mono">霍夫施塔特蝴蝶到EEQT_过渡路线.md</span> · <span class="mono">SEG接入Mini水杯工作站_诚实评估_v1.md</span><br>
   所有结论标注确信度与出处；事实 / 主张 / 假设 / 预测 / 查无实据分开标注，OPEN 不掩盖。
 </div></footer>
 
 <script>
-const secs=["concl","correct","hardware","arch","roadmap","fiveq","checklist","evidence"].map(id=>document.getElementById(id));
+const secs=["concl","correct","hardware","arch","roadmap","fiveq","checklist","evidence","seg"].map(id=>document.getElementById(id));
 const links=[...document.querySelectorAll("nav.tabs a")];
 window.addEventListener("scroll",()=>{
   let cur=0; secs.forEach((s,i)=>{if(s&&s.getBoundingClientRect().top<150)cur=i;});
