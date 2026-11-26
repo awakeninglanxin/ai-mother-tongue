@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kryon / Bashar 磁动机 · 诚实审计与 3D 交互示意</title>
+<style>
+:root{
+  --paper:#f7f3ea; --paper2:#fbf8f1; --card:#fffdf8;
+  --ink:#1b2430; --ink2:#47555f; --ink3:#7c8a92; --ink4:#a9b4b8;
+  --line:rgba(27,36,48,.13); --line2:rgba(27,36,48,.07);
+  --blue:#1f6f9f; --blue-l:#e8f1f6;
+  --purple:#6b4a8f; --purple-l:#f1ecf6;
+  --green:#2c7a58; --green-l:#e9f2ec;
+  --red:#a8352e; --red-l:#f7eae8;
+  --gold:#a87c22; --gold-l:#f6efdc;
+  --mono:"Consolas","SF Mono","Cascadia Mono",Menlo,monospace;
+  --serif:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,Georgia,serif;
+  --sans:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",system-ui,-apple-system,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.8;
+  -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(circle at 18% 8%,rgba(168,124,34,.05),transparent 42%),radial-gradient(circle at 82% 4%,rgba(31,111,159,.05),transparent 40%);
+  background-attachment:fixed}
+.wrap{max-width:1120px;margin:0 auto;padding:0 30px}
+a{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(31,111,159,.28)}
+a:hover{border-bottom-color:var(--blue)}
+
+.top{padding:52px 0 30px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.22em;color:var(--ink3);text-transform:uppercase;margin-bottom:14px}
+h1{font-family:var(--serif);font-size:38px;font-weight:700;letter-spacing:.01em;line-height:1.25}
+h1 .thin{color:var(--ink3);font-weight:400;font-size:.7em}
+.lede{margin-top:16px;font-size:16px;color:var(--ink2);max-width:920px}
+.lede b{color:var(--ink)}
+.meta-line{margin-top:20px;font-family:var(--mono);font-size:11.5px;color:var(--ink3);line-height:1.9}
+
+nav.tabs{position:sticky;top:0;z-index:20;background:rgba(247,243,234,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:4px;flex-wrap:wrap;padding-top:9px;padding-bottom:9px}
+nav.tabs a{font-size:12.5px;color:var(--ink2);padding:5px 12px;border:none;border-radius:7px;font-family:var(--mono)}
+nav.tabs a:hover{background:var(--paper2);color:var(--ink)}
+nav.tabs a.on{background:var(--ink);color:var(--paper)}
+
+section{padding:50px 0;border-bottom:1px solid var(--line2)}
+section h2{font-family:var(--serif);font-size:27px;font-weight:700;margin-bottom:6px;display:flex;align-items:baseline;gap:14px}
+section h2 .no{font-family:var(--mono);font-size:13px;color:var(--gold);font-weight:400;letter-spacing:.05em}
+section .sub{color:var(--ink2);font-size:15px;max-width:880px;margin-bottom:26px}
+h3{font-family:var(--serif);font-size:19px;font-weight:700;margin:28px 0 10px;color:var(--ink)}
+p{margin:12px 0;color:var(--ink2)}
+p b,li b{color:var(--ink)}
+strong.k{font-family:var(--mono);font-size:.92em;color:var(--purple)}
+
+.callout{border-left:3px solid var(--gold);background:var(--gold-l);padding:16px 20px;margin:22px 0;border-radius:0 8px 8px 0}
+.callout .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+.callout p{margin:0;color:var(--ink)}
+.callout.green{border-left-color:var(--green);background:var(--green-l)}
+.callout.green .lbl{color:var(--green)}
+.callout.red{border-left-color:var(--red);background:var(--red-l)}
+.callout.red .lbl{color:var(--red)}
+.callout.blue{border-left-color:var(--blue);background:var(--blue-l)}
+.callout.blue .lbl{color:var(--blue)}
+
+.fig{margin:26px 0;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:22px 24px 18px;overflow-x:auto}
+.fig .cap{font-family:var(--mono);font-size:11.5px;color:var(--ink3);letter-spacing:.06em;margin-bottom:14px;text-transform:uppercase}
+.fig svg{display:block;width:100%;height:auto;min-width:560px}
+.fig .note{font-size:12.5px;color:var(--ink3);margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
+
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:13.5px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line2);vertical-align:top}
+th{font-family:var(--mono);font-size:12px;color:var(--ink3);font-weight:400;letter-spacing:.03em;border-bottom:1.5px solid var(--line)}
+td{color:var(--ink2)}
+tr:hover td{background:var(--paper2)}
+.mono{font-family:var(--mono)}
+.tag{display:inline-block;font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:5px;white-space:nowrap}
+.t-src{background:var(--blue-l);color:var(--blue)}
+.t-th{background:var(--purple-l);color:var(--purple)}
+.t-num{background:var(--green-l);color:var(--green)}
+.t-warn{background:var(--red-l);color:var(--red)}
+.t-open{background:var(--gold-l);color:var(--gold)}
+
+.xplain{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:11px;overflow:hidden;margin:18px 0;background:var(--card)}
+.xplain>div{padding:16px 20px}
+.xplain .pro{border-right:1px solid var(--line);background:#fbf9f3}
+.xplain .lay{background:#fffdf8}
+.xplain .tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;padding:2px 7px;border-radius:4px;display:inline-block;margin-bottom:7px}
+.xplain .pro .tag{background:var(--blue-l);color:var(--blue)}
+.xplain .lay .tag{background:var(--purple-l);color:var(--purple)}
+.xplain h4{font-family:var(--serif);font-size:14.5px;font-weight:700;margin-bottom:6px}
+.xplain p{font-size:13px;margin:5px 0}
+.xplain em{color:var(--purple);font-style:normal;font-weight:700}
+.eq{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--line2);border-radius:6px;padding:7px 10px;margin:8px 0;color:var(--purple);display:block;overflow-x:auto;white-space:nowrap}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:20px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:20px 22px}
+.card h4{font-family:var(--serif);font-size:17px;font-weight:700;margin-bottom:10px}
+.card p{font-size:13.5px}
+.launch{display:inline-block;margin-top:12px;padding:10px 18px;background:var(--ink);color:var(--paper);border-radius:8px;border:none;font-family:var(--mono);font-size:13px}
+.launch:hover{background:var(--purple);border:none;color:#fff}
+.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+.thumbs a{border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--card);border-bottom:1px solid var(--line)}
+.thumbs img{display:block;width:100%;height:auto}
+.thumbs .lb{font-family:var(--mono);font-size:11px;color:var(--ink3);padding:7px 10px}
+
+ul.clean{list-style:none;padding:0}
+ul.clean li{padding:10px 0 10px 26px;position:relative;border-bottom:1px solid var(--line2)}
+ul.clean li:before{content:"→";position:absolute;left:2px;color:var(--gold);font-family:var(--mono)}
+ul.clean li:last-child{border-bottom:none}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:24px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:14px 16px}
+.stat .k{font-family:var(--mono);font-size:11px;color:var(--ink3);letter-spacing:.05em}
+.stat .v{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--ink);margin-top:4px}
+.stat .v.g{color:var(--green)}.stat .v.o{color:var(--gold)}.stat .v.b{color:var(--blue)}.stat .v.r{color:var(--red)}
+.stat .d{font-size:11.5px;color:var(--ink3);margin-top:3px}
+footer{padding:36px 0 60px;color:var(--ink3);font-size:12.5px;font-family:var(--mono);line-height:2}
+@media(max-width:820px){.grid2,.stat-row,.xplain,.thumbs{grid-template-columns:1fr}h1{font-size:28px}section h2{font-size:23px}.xplain .pro{border-right:none;border-bottom:1px solid var(--line)}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">Kryon × Bashar · Magnetic Motor · Honest Audit</div>
+    <h1>Kryon / Bashar 磁动机 <span class="thin">/ 从「图纸级提示」到「拓扑相位 ≠ 功率红利」</span></h1>
+    <p class="lede">源起老师 2026-11-26 给的元宝九轮问答。核心判断：<b>Kryon 给的是语言拓扑图纸，Bashar 给的是接收天线方向；两套隐喻都指向「改几何而非加能量」，但标准物理在四个不同层面各堵一段——拓扑能改相位，不能改账本。</b>玄学隐喻可作为灵性地图阅读，不能接上发电机。</p>
+    <div class="meta-line">
+      生成 2026-11-26 ｜ 依据：元宝九轮问答全文（已归档，97KB）+ 三张实拍预览图 + 重建的两版离线网页 + A6 四级证据链接<br>
+      取证规则：Kryon / Bashar 原话照录 · 数学定理逐条标出处 · 未实测项标 OPEN · 不把隐喻当功率
+    </div>
+  </div>
+</header>
+
+<nav class="tabs"><div class="wrap">
+  <a href="#thesis">0 · 结论</a><a href="#voices">1 · 两家原话</a><a href="#proof">2 · 数学判决</a>
+  <a href="#zpe">3 · ZPE / 暗能量</a><a href="#falsify">4 · 五年判据</a><a href="#links">5 · 原始链接</a>
+  <a href="#lab">6 · 3D 实验台</a><a href="index.html" style="color:var(--green)">⌂ 总入口</a>
+</div></nav>
+
+<!-- 0 -->
+<section id="thesis"><div class="wrap">
+  <h2><span class="no">00</span>六句话结论</h2>
+  <p class="sub">先说判决，再说为什么——这是整套审计的立场。</p>
+  <ul class="clean">
+    <li><b>两家的话不能混着引</b>：Kryon 明确说「没有自由能量这种东西……它叫作磁」，给的是莫比乌斯环 + 碟片 + 永磁阵列的语言图纸；Bashar 几乎不谈永磁转子，谈的是 7.5 Hz 舒曼共振接收天线与 33.9° 圆锥。一个改转子几何，一个改接收端调谐。</li>
+    <li><b>Kryon 最漂亮的一手是真的</b>：把位形空间从 <span class="mono">S¹</span> 改成带半扭的非平凡纤维丛，<span class="mono">m(θ+2π)=−m(θ)</span>，4π 才回原态——这是拓扑学中真实存在的结构。</li>
+    <li><b>但他把「拓扑相位」当成了「拓扑能源」</b>：莫比乌斯没有消灭闭合回路，只把结算周期从 2π 拉长到 4π；4π 上净功严格为零。贝里相位 / AB 效应改的是波函数相位，不改哈密顿量本征值，不能对外做功。</li>
+    <li><b>三堵独立的墙</b>：A 不可定向流形上净功非良定义；B Earnshaw 定理禁止被动「自动翻极门」（需抗磁质 / 超导 / 主动反馈，皆非免费）；C 磁矩翻转要付磁晶各向异性能垒（钕铁硼约 5 MJ/m³）。</li>
+    <li><b>最慈善的解读反而成立</b>：他说的「磁阵列稳定传矩、只需偶尔给轴承加油」就是<b>磁齿轮</b>（Magnomatics 500 kW 海上风电样机、国家电投 132 kW 在运）；「2π 不闭合、4π 才闭合」就是拓扑物理日常。<b>他只是吞掉了输入轴这个前提。</b></li>
+    <li><b>暗能量那半句要分层</b>：「物理学家探测错了」在 2025–2026 的 DESI / 超新星系统误差争议中不算异端；但「磁能是暗能量根因」被观测压到最多配角（Ω_B≈0.03，Ω_Q≈0.71）。把假说写成拉氏量耦合项是可研究纲领，不是现有结论。</li>
+  </ul>
+
+  <div class="stat-row">
+    <div class="stat"><div class="k">KRYON 原文图</div><div class="v r">0 张</div><div class="d">全是语言拓扑，无亲绘工程图</div></div>
+    <div class="stat"><div class="k">闭合净功</div><div class="v g">= 0</div><div class="d">2π 或 4π 都一样</div></div>
+    <div class="stat"><div class="k">磁能占暗能量</div><div class="v o">≈ 3%</div><div class="d">Ω_B 0.03 vs Ω_Q 0.71</div></div>
+    <div class="stat"><div class="k">重放网页</div><div class="v b">v1 / v2</div><div class="d">离线单文件，已渲染核验</div></div>
+  </div>
+</div></section>
+
+<!-- 1 -->
+<section id="voices"><div class="wrap">
+  <h2><span class="no">01</span>两家到底说了什么（原话逐条）</h2>
+  <p class="sub">以下引文均来自元宝 A1 / A3 / A6 正式回答中转述的传导原文；不把元宝的编译混进引号内。</p>
+
+  <div class="xplain">
+    <div class="pro"><span class="tag">专业术语</span>
+      <h4>Kryon：莫比乌斯带作为不可定向 S¹-丛</h4>
+      <p>《现今的问题》先否定「自由能量」一词，再定义来源为「磁」；装置描述为永磁体、多轮、磁阵列互推拉。关键提示：<em>轮子应该是莫比乌斯环</em>，配碟片与永磁体。</p>
+      <p>《正在来到的发现》（2021）给产品形态：2–3 轮、特定磁阵列、轮接发电机、无电池无电网、手机微型磁轮机、电动车底盘磁轮给超级电容充电；明说这是「<em>尚未被发现的磁阵列模式</em>」。</p>
+      <p>逻辑链三条：静态力免费 → 换几何绕开磁平衡锁死 → 从磁这个「无需刷新的场」转化而非凭空创造。</p>
+    </div>
+    <div class="lay"><span class="tag">大白话</span>
+      <h4>他把游戏规则改了，不是把力气加大</h4>
+      <p>他说磁铁吸推的劲儿是真有，但你拿两个大力士掰不开同极磁铁去问「这股劲能顶多久」——答案是<b>一直顶</b>。可惜<b>有劲 ≠ 有用功</b>，推过去多少，掰回来就得还多少。</p>
+      <p>普通轮子转到某个角度就锁住，他说：别加磁铁，<b>把路改成莫比乌斯带</b>——去程和回程不是同一条道，账面上就不抵消了。</p>
+      <p>听着很聪明。问题是：他把「绕一圈回来样子变了」当成「绕一圈白赚了钱」，这两件事在物理里不是一回事。</p>
+    </div>
+  </div>
+
+  <div class="xplain">
+    <div class="pro"><span class="tag">专业术语</span>
+      <h4>Bashar：接收天线与 φ 圆锥，不谈转子</h4>
+      <p>特斯拉那场：不是发电机而是<em>接收天线</em>——行星周长 ÷ 光速 = 7.5 Hz；在该频率振动的发射塔产生波长等于地球直径的波，赤道↔两极来回反射，激活地球电磁场。</p>
+      <p>另一次：自由能源 50 年内，路径是三相性（物质/反物质/暗物质，正能/负能/暗能量）+ 跟随兴奋带来的同步性；明说「不能泄露秘密，必须亲自经历摸索」。</p>
+      <p>1997 年：圆锥天线，斐波那契比例、顶角 <em>33.9°（φ）</em>，或高 33.3 / 底周长 33.3 → 顶角 19.5°；称「从以太到物理的翻译装置」，无运动部件。</p>
+    </div>
+    <div class="lay"><span class="tag">大白话</span>
+      <h4>他压根没在回答「轮子怎么一直转」</h4>
+      <p>他把问题换了：机器不生产能量，机器是<b>收音机</b>。地球电磁场本来就在那儿震，你把天线调到它的频率，能量自己流进来——所以不是磁铁有存货，是「场没关过」。</p>
+      <p>他会给你一个圆锥角度让你自己拿材料试，但不给图纸，理由是「不能毁掉你们的惊喜」。</p>
+      <p>所以把 Bashar 的话拿来给磁动机背书，其实<b>引错了人</b>——他讲的是调谐，不是转子。</p>
+    </div>
+  </div>
+
+  <div class="fig">
+    <div class="cap">图 1 · 两种隐喻的耦合界面示意（自画，非 Kryon 图纸）</div>
+    <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kryon 转子几何与 Bashar 接收调谐两种路径示意">
+      <rect width="680" height="300" fill="#fffdf8"/>
+      <!-- left: Kryon rotor -->
+      <g transform="translate(0,0)">
+        <text x="170" y="32" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="13" font-weight="bold" fill="#1b2430">Kryon · 改位形空间拓扑</text>
+        <ellipse cx="170" cy="150" rx="100" ry="62" fill="none" stroke="#a8352e" stroke-width="3" transform="rotate(-18 170 150)"/>
+        <ellipse cx="170" cy="150" rx="100" ry="62" fill="none" stroke="#1f6f9f" stroke-width="3" transform="rotate(18 170 150)"/>
+        <g fill="#6b4a8f">
+          <circle cx="100" cy="112" r="7"/><circle cx="240" cy="112" r="7"/>
+          <circle cx="100" cy="188" r="7"/><circle cx="240" cy="188" r="7"/>
+        </g>
+        <text x="170" y="262" text-anchor="middle" font-family="Consolas,monospace" font-size="10.5" fill="#47555f">m(θ+2π) = −m(θ)  ·  4π 才闭合</text>
+        <text x="170" y="282" text-anchor="middle" font-family="Consolas,monospace" font-size="10" fill="#a8352e">∮W = 0（4π 上照样结账）</text>
+      </g>
+      <!-- middle divider -->
+      <line x1="340" y1="40" x2="340" y2="270" stroke="rgba(27,36,48,.13)" stroke-dasharray="4 4"/>
+      <!-- right: Bashar antenna -->
+      <g>
+        <text x="510" y="32" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="13" font-weight="bold" fill="#1b2430">Bashar · 改接收端调谐</text>
+        <path d="M510 78 L470 205 L550 205 Z" fill="none" stroke="#2c7a58" stroke-width="2.6"/>
+        <line x1="510" y1="78" x2="510" y2="205" stroke="#a87c22" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <g fill="none" stroke="#1f6f9f" stroke-width="1.3" opacity=".7">
+          <path d="M420 100 Q510 70 600 100"/><path d="M420 125 Q510 92 600 125"/>
+          <path d="M415 152 Q510 118 605 152"/>
+        </g>
+        <text x="510" y="232" text-anchor="middle" font-family="Consolas,monospace" font-size="10.5" fill="#47555f">7.5 Hz · 圆锥顶角 33.9° (φ)</text>
+        <text x="510" y="252" text-anchor="middle" font-family="Consolas,monospace" font-size="10.5" fill="#47555f">19.5° · 涡旋纬度</text>
+        <text x="510" y="282" text-anchor="middle" font-family="Consolas,monospace" font-size="10" fill="#2c7a58">机器 = 调谐器，不是发电机</text>
+      </g>
+    </svg>
+    <div class="note">图为本页为讲清两家分工自画的教学示意，不是 Kryon 或 Bashar 发布的图纸；Kryon 官方渠道从未发布过磁铁多维结构的亲绘工程图（见 A6）。</div>
+  </div>
+</div></section>
+
+<!-- 2 -->
+<section id="proof"><div class="wrap">
+  <h2><span class="no">02</span>数学物理判决：四堵墙逐条过</h2>
+  <p class="sub">把 Kryon 的直觉翻译成标准对象后逐条推——形式体系自洽，但每条通往永动的路都被独立定理堵住。</p>
+
+  <h3>引理 1 · 静态场闭合回路净功恒为零</h3>
+  <span class="eq">H = −∇Φ_m  ⟹  U(θ) = −Σᵢ mᵢ·B_ext(rᵢ;θ) + (μ₀/2)∫|H|²dV</span>
+  <span class="eq">W_cycle = ∮₀^{2π} τ dθ = −∮ dU = U(0) − U(2π) = 0</span>
+  <div class="xplain">
+    <div class="pro"><span class="tag">专业术语</span>
+      <p>静电/静磁有势，<em>H 是标势负梯度</em>，U 是态函数。恰当微分形式沿闭链积分为零，与磁铁强度、阵列复杂度无关。τ(θ) 在 30° 区间可以极陡，但力 ≠ 功。</p>
+      <p>Johnson US4151431、Perendev、Bedini 纯永磁版全死在此引理。</p>
+    </div>
+    <div class="lay"><span class="tag">大白话</span>
+      <p>磁铁的吸力是真的，<b>但它是「借」的</b>。吸过去拿到多少，掰回来就得还多少，绕一圈回到原点，账面必然清零。</p>
+      <p>那些宣称「不对称排列就能一直转」的，等于说「我走了一条环路，回到出发点却多了一百块」——问题不在磁铁不努力，在<b>环路本身就是闭合的</b>。</p>
+    </div>
+  </div>
+
+  <h3>墙 A · 不可定向流形上「净功」不是良定义</h3>
+  <span class="eq">m(θ+2π) = −m(θ)  ⟹  必须绕 4π 才回原截面：W_4π = −[U(4π) − U(0)] = 0</span>
+  <div class="xplain">
+    <div class="pro"><span class="tag">专业术语</span>
+      <p>普通转子位形空间 <em>S¹</em>，U 必须 2π 周期单值。莫比乌斯转子改成以磁矩方向为纤维的非平凡 S¹-丛，绕一周纤维反号。微分形式积分要求流形可定向，莫比乌斯带不可定向 ⇒ 必须切回可定向的双覆盖（绕两圈）才谈得上功。</p>
+      <p><em>莫比乌斯没消灭闭合回路，只把闭合回路拉长一倍。</em>每 2π 看似有净功，那点「净」是从下一个 2π 预支的。</p>
+    </div>
+    <div class="lay"><span class="tag">大白话</span>
+      <p>他说「回程走另一面，所以不抵消」——对，走完第一圈你确实站到了「反面」，账还没结。</p>
+      <p>但你得再走一圈才能回到原来那一面。<b>第二圈一起结，总账还是零。</b>他只是把结账日从月底推到了两个月后。</p>
+    </div>
+  </div>
+
+  <h3>墙 B · Earnshaw 禁止被动「自动翻极门」</h3>
+  <div class="xplain">
+    <div class="pro"><span class="tag">专业术语</span>
+      <p>静态永磁 + 静电 + 重力构成的固定构型，在无源区满足 <em>∇²U = 0</em>（拉普拉斯），U 不可能有局部极小，只有鞍点。翻边点需要「沿轨道鞍、垂直方向稳」的组合——纯永磁搭不出这个被动稳定门。Geim 1999 磁悬浮青蛙实验是正面写照：突破 Earnshaw 要抗磁质（χ&lt;0）、超导或主动反馈，三者都不免费。</p>
+    </div>
+    <div class="lay"><span class="tag">大白话</span>
+      <p>你希望磁铁走到某处「啪」自己翻面，还得翻得稳、不跑偏。但纯磁铁排出的场<b>没有稳定的坑</b>——那儿不是卡住就是抖出去。</p>
+      <p>真要它乖乖翻，就得有东西推一把；那一把就是<b>要记账的输入功</b>。他说「无需刷新、无需外部电源」，等于把这个推手从账本上抹掉了。</p>
+    </div>
+  </div>
+
+  <h3>墙 C + 隐藏输入六格 · 翻极能垒与账本</h3>
+  <span class="eq">W_out − W_in = −Σ_i Q_fric,i − (E_demag + E_flip) + W_hidden ≤ 0</span>
+  <table>
+    <thead><tr><th>隐藏输入</th><th>典型伪装</th></tr></thead>
+    <tbody>
+      <tr><td>时变外场</td><td>底座里藏线圈 + 霍尔 + 单片机</td></tr>
+      <tr><td>退磁</td><td>磁体几年内掉 Br，把库存能当期权卖</td></tr>
+      <tr><td>屏蔽件运动</td><td>「磁闸」本身被转子推着走，reset 要功</td></tr>
+      <tr><td>重力偏置</td><td>轮子其实微微下坡 / 偏心</td></tr>
+      <tr><td>环境梯度</td><td>靠地磁 / 铁构件旁，取的是外部</td></tr>
+      <tr><td>测量错觉</td><td>钳形表测非正弦、电池恢复效应、热漂移</td></tr>
+    </tbody>
+  </table>
+  <div class="xplain">
+    <div class="pro"><span class="tag">专业术语</span>
+      <p>磁矩翻转 180° 穿越磁晶各向异性能垒（钕铁硼约 5 MJ/m³）。被动翻从转子动能扣，主动翻从场能扣，两种都进总 U，已在引理 1 的 ∮dU=0 中结算。<em>不能同时算作「免费换极红利」又算作「系统内部状态」——这是复式记账里最常见的偷钱。</em></p>
+    </div>
+    <div class="lay"><span class="tag">大白话</span>
+      <p>把磁铁翻个面不是白翻的，磁畴内部要耗能，就像你反复折一根铁丝会发热一样。</p>
+      <p>所有「成功」的磁动机拆开后都能在上表六格里找到那个<b>偷偷塞进去的电源</b>。Perendev 卖磁电机给汽车供能，2010 年以诈骗罪判 5 年 9 个月；Howard Johnson  patent 拿到了，但美国专利局不要求演示可运行。</p>
+    </div>
+  </div>
+
+  <div class="callout green"><div class="lbl">最慈善的解读（这部分真的对）</div>
+    <p>①「磁阵列稳定传矩、只需偶尔给轴承加油」=<b>磁齿轮</b>：磁场调制型磁齿轮满足极对数匹配条件时输出稳定转矩，Magnomatics 500 kW 海上风电样机跑过、国家电投 132 kW 在空冷岛在用——只是输入轴这个前提被吞掉了。<br>②「2π 不闭合、4π 才闭合」=<b>拓扑物理日常</b>：自旋 1/2 粒子 4π 回原态、AB 效应矢势绕不可缩回路累积规范相位、贝里相位在参数空间闭链取几何相。<br><b>一句话：莫比乌斯能改相位，不能改账本。</b></p>
+  </div>
+</div></section>
+
+<!-- 3 -->
+<section id="zpe"><div class="wrap">
+  <h2><span class="no">03</span>Kryon 没提零点能 · 暗能量那半句怎么判</h2>
+  <p class="sub">「没说过」本身有信息量：他选的词都落在当前物理还没封口的地方。</p>
+
+  <table>
+    <thead><tr><th>来源</th><th>供能落点</th><th>碰 ZPE 吗</th></tr></thead>
+    <tbody>
+      <tr><td>Tesla / Bashar</td><td>舒曼共振 7.5 Hz + 以太 + φ 几何天线</td><td>没直说；「以太」是 ZPE 的 19 世纪祖先</td></tr>
+      <tr><td>Kryon</td><td>永磁静态场 + 暗物质 / 多维量子</td><td><b>一次都没碰</b></td></tr>
+      <tr><td>Bearden / Bedini 派</td><td>电磁脉冲坍缩耦合真空零点</td><td>核心卖点就是它</td></tr>
+      <tr><td>民间磁动机圈</td><td>常把上面三家缝一起</td><td>ZPE 当万能补丁</td></tr>
+    </tbody>
+  </table>
+
+  <div class="xplain">
+    <div class="pro"><span class="tag">专业术语</span>
+      <p>核到的 Kryon 原文里没有 <em>zero point energy</em>，也没有 Casimir / 真空涨落 / 量子泡沫。三个替代词：①磁本身（2021「磁力就是答案」）；②暗物质 / 多维量子（2022《未来500年的物理》，明说「非线性系统，属于多维物理」）；③原初宇宙隔膜残留（拓扑缺陷语言）。</p>
+      <p>慈善地替他补上 ZPE 也救不活：基态被动性 no-go——初态为 |0⟩、周期末哈密顿量回原形的任意场+控制器复合系统，净可提取功 ≤ 0。五个合法漏洞（非平衡泵浦、边界材料态变、热/化学梯度、测量信息资源、非循环末态）与隐藏输入六格表几乎一一对应，每一个都违反他「无需刷新、无需外部电源、无需燃料」。</p>
+    </div>
+    <div class="lay"><span class="tag">大白话</span>
+      <p>他连「真空涨落」这个词都没用。别人拿零点能当万能补丁，他偏说「是磁，是暗物质，是多维」——<b>这些词恰好都在当前物理还没被封死的地方</b>，证伪成本高得多。作为隐喻工程，段位很高。</p>
+      <p>但就算你替他改成「其实耦合了真空能」，也救不活那台机器：卡西米尔板吸在一起那一哆嗦是真的，<b>你花的拉开功至少一样多</b>。跟磁铁吸过去再掰回来是同一本账。</p>
+    </div>
+  </div>
+
+  <h3>暗能量：一半站得住，一半还差四道观测墙</h3>
+  <div class="xplain">
+    <div class="pro"><span class="tag">专业术语</span>
+      <p>物理学家没有「探测到暗能量实体」，探测到的是 Ia 超新星加速膨胀、Planck CMB 第三峰空间平坦、DESI DR2 的 BAO 膨胀史。「暗能量」是标签，底下能塞 Λ、动力学标量场、修改引力、系统误差四种东西。DESI DR2 偏好 w₀&gt;−1、wₐ&lt;0 约 3σ~3.8σ；Son 2025 修正低 z age-bias 后结论反转回 ΛCDM 甚至可能减速——所以「物理学家可能错了」在 2025–26 是常规操作。</p>
+      <p>慈善化编译写作 <em>ℒ ⊃ −¼ B_F(φ)F_μνF^μν + ½(∂φ)² − V(φ)</em>。但 Contopoulos &amp; Basilakos 2007 实测拟合给 Ω_B≈<b>0.03</b>、Ω_Q≈0.71、w≈−0.8：磁能最多配角。ADD/RS 额外维约束下，光子被限制在膜上，漏进 bulk 的主要是引力子；短距离牛顿反平方律已压到 &lt;0.045 mm。</p>
+    </div>
+    <div class="lay"><span class="tag">大白话</span>
+      <p>「科学家探到的暗能量是误读」——这句在今天的宇宙学争议里<b>不算离谱</b>，标准模型确实吃不下所有数据。</p>
+      <p>但「根因是磁、来自多维」目前还只是一句口号。真要做成物理，必须写成拉氏量里的一个耦合项，并且解释：如果磁能漏到额外维，为什么短距离引力实验、LHC、天体观测<b>都没看见</b>？已有拟合里磁能只分到 3%，剩下 71% 还得靠真正的暗能量顶着。</p>
+    </div>
+  </div>
+
+  <div class="callout"><div class="lbl">Kryon 的自我限速</div>
+    <p>Metatron 合传里有一句：「确实会有一些人能在宏观层面发现它，但这并不会十分有效率。」翻成大白话就是——<b>你们会搭出会转的玩意儿，但别指望它当电站用。</b>他用灵性语言提前说了 ∮τdθ=0。</p>
+  </div>
+</div></section>
+
+<!-- 4 -->
+<section id="falsify"><div class="wrap">
+  <h2><span class="no">04</span>未来五年四张判决票</h2>
+  <p class="sub">先钉死规矩：<b>单一异常一律不算验证</b>。要算支持，至少两张票在同一参数象限同时亮、第三张不反对。</p>
+
+  <table>
+    <thead><tr><th>#</th><th>实验 / 探针</th><th>看到什么才算赢</th><th>窗口</th></tr></thead>
+    <tbody>
+      <tr><td>🥇 1</td><td><b>桌面短程第五力</b>：Eöt-Wash 下一代扭秤 / MORRIS 磁悬浮谐振子 / 光镊冷原子阵列</td><td>三家在 λ=10 μm–1 mm 同时看到 α~10⁻³–10⁻⁴ 的 Yukawa 偏离，且同一 (ϕ, B_F(φ)) 拉氏量拟合；若都零结果到 α&lt;10⁻⁵，ADD 大额外维 R~0.045 mm 那一支死</td><td>2027–2030</td></tr>
+      <tr><td>🥈 2</td><td><b>基本常数漂移</b>：光钟网络 + 高电荷态离子（Cf¹⁵⁺/Cf¹⁷⁺ K_α=47/−43.5）、钍-229 核钟、requench dysprosium</td><td>α̇/α 或 μ̇/μ 出现与 ϕ̇ 一致的漂移或年调制；原子钟/离子探针推到 10⁻²⁰/yr 量级</td><td>2027–2031</td></tr>
+      <tr><td>🥉 3</td><td><b>宇宙一致性与偏振</b>：DESI / Euclid 动态暗能量、CMB 双折射、LiteBIRT / SKA</td><td>多探针在同一 w(z) 参数象限一致偏离 ΛCDM，且系统误差处理不把它抹平</td><td>2028–2031</td></tr>
+      <tr><td>4</td><td><b>高能直产</b>：LHC / FASER2 / MATHUSLA / SHiP 找长寿命 KK 模或暗光子</td><td>高风险高回报；零结果只砍参数空间，不算反证整个假说</td><td>2029–2031</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout blue"><div class="lbl">最贴 Kryon 那句话的实验（反讽）</div>
+    <p><b>MORRIS</b> 用超导阱悬浮一颗亚毫米永磁球，Meissner 被动悬浮、Q&gt;10⁶、力灵敏度 10⁻¹⁶ N/√Hz，专门扫 λ~1 mm 的 Yukawa 第五力。Kryon 说「磁铁是那个一直在你面前的探针」——MORRIS 字面把一块磁铁悬起来当探针，只不过测的不是发电，是 1/r² 在毫米处有没有悄悄弯掉。</p>
+  </div>
+
+  <h3>最小判决性实验（若能自己动手）</h3>
+  <div class="xplain">
+    <div class="pro"><span class="tag">专业术语</span>
+      <p>装置：莫比乌斯带状转子（3D 打印骨架 + 48 块 N42 薄片，半扭 180°）、同轴双覆盖、陶瓷轴承、真空罩；轴上不接任何电线/屏蔽件/供电，测速用外部激光转速表穿窗。</p>
+      <p>三条同时满足才算 Kryon 对：①抽真空后给已知 ω₀ 脱手，<em>τ &gt; 100× 同惯量裸转子对照</em>；②轴上加磁滞制动器做可调负载，稳态连续 72 小时 <em>P_out &gt; 0</em> 且由外部量热计独立核对；③前后用 BH 曲线追踪仪测每块磁体 Br 与 Hcj，<em>退磁 &lt; 0.5%</em>。</p>
+    </div>
+    <div class="lay"><span class="tag">大白话</span>
+      <p>别吵，搭一台干净的：真空里让轮子转，看它能转多久；接上真负载，看能带多少；转完把磁铁拿去测，看有没有偷偷掉磁。</p>
+      <p>预判：τ 会略长于裸转子（磁悬浮减摩是真的），但<b>一加负载几分钟到几小时就停</b>，停下时磁体 Br 掉了一点点——那点掉的量恰好等于输出过的焦耳数 ±5%。YouTube 那些演示全不过第 2、3 条。<b>沉默本身就是数据。</b></p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 5 -->
+<section id="links"><div class="wrap">
+  <h2><span class="no">05</span>原始链接按证据等级（A6 原文）</h2>
+  <p class="sub">最重要的一句：<b>Kryon / Lee Carroll 官方从未发布过一张「磁铁背后的多维结构」工程图或亲绘示意图</b>——全是语言拓扑。别把社区二创当第一级引。</p>
+
+  <table>
+    <thead><tr><th>等级</th><th>链接</th><th>内容</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag t-src">一级 · 官网原文</span></td><td class="mono"><a href="https://www.kryon.com/k_29.html">kryon.com/k_29.html</a></td><td>1998 Bedford《Cosmic Lattice 与设计磁场》：两个场互成直角、强度图样不等 → 生成第三图样（乘积）；「你造的是 vent，不是永动机」</td></tr>
+      <tr><td><span class="tag t-src">一级</span></td><td class="mono"><a href="https://www.kryon.com/k_chanelnewhamp02.html">k_chanelnewhamp02.html</a></td><td>2002 Bedford Metatron 合传：穿膜同位、反物质在膜另一侧错位时间帧、极小磁机海量并联、合力&gt;各部分之和；页角相机图标是讲座照片集，非结构图</td></tr>
+      <tr><td><span class="tag t-src">一级</span></td><td class="mono"><a href="https://kryon.com/k_chanelShasta05.html">k_chanelShasta05.html</a></td><td>2003 Mount Shasta《Invisible Things》：磁极之间是「永远开着的维间引擎」；附光闭锁室石头感光板思想实验</td></tr>
+      <tr><td><span class="tag t-src">一级</span></td><td class="mono"><a href="https://www.kryon.com/CHAN2021/k_channel21_Discoveries.html">k_channel21_Discoveries.html</a></td><td>2021《Coming Discoveries》：2–3 轮磁阵列、无电池无电网，「尚未被发现的模式」但没给图纸</td></tr>
+      <tr><td><span class="tag t-src">一级</span></td><td class="mono"><a href="https://www.kryon.com/CHAN2017/k_channel17_montreal.html">k_channel17_montreal.html</a> · <a href="https://www.kryon.com/CHAN2014/k_channel14_SANANTONIO-14.html">k_channel14_SANANTONIO-14.html</a></td><td>2017 莫比乌斯环面 / 2014 相关传导</td></tr>
+      <tr><td><span class="tag t-th">二级 · 官方讲座/译文</span></td><td class="mono"><a href="https://goldenageofgaia.com/2022/12/17/kryon-the-best-inventions-wont-be-high-technology/">Golden Age of Gaia 2022</a> · <a href="https://chinaqigong.com/thread-453758-1-204.html">中文译本</a></td><td>《最好的发明不是高科技》；中文社区忠实译本</td></tr>
+      <tr><td><span class="tag t-warn">三级 · 社区二创</span></td><td class="mono"><a href="https://www.kryonengine.org/">KryonEngine.org</a></td><td>「中心磁 + 螺旋导轨 + 周边磁」图纸是<b>粉丝反向工程</b>，站方自己写「不确认也不否认任何原型机存在」——不是 Kryon 给的图纸</td></tr>
+      <tr><td><span class="tag t-th">Bashar 原文</span></td><td class="mono"><a href="https://zenkarsha.github.io/bashar/text/2020/04/18/%E5%B7%B4%E5%A4%8F-%E5%B0%BC%E5%8F%A4%E6%8B%89%E7%89%B9%E6%96%AF%E6%8B%89%E8%88%87%E8%87%AA%E7%94%B1%E8%83%BD%E6%BA%90.html">巴夏 · 特斯拉与自由能源（中译）</a> · <a href="https://www.superphysics.org/research/other/alien/essassani/transmissions/1997/1997-01-03/">1997 圆锥传导</a></td><td>7.5 Hz 接收天线、33.9°/19.5° 圆锥、以太→物理翻译装置</td></tr>
+      <tr><td><span class="tag t-num">实证审计</span></td><td class="mono"><a href="https://claimbyclaim.com/claims/magnets-self-running-motor-indefinitely">ClaimByClaim 磁动机审计</a> · <a href="https://www.peopleapp.com/rmharticle/30043439280">Perendev 案</a></td><td>逐格勾隐藏输入；Perendev 2010 判 5 年 9 个月诈骗</td></tr>
+    </tbody>
+  </table>
+  <div class="callout red"><div class="lbl">链接分级铁律</div>
+    <p>一级 = 语言原文（无图）；二级 = 官方讲座/忠实译文（可能有现场照片，非工程图）；三级 = 粉丝图纸/二创。<b>把三级当一级引，是这条链路最常见的加料。</b></p>
+  </div>
+</div></section>
+
+<!-- 6 -->
+<section id="lab"><div class="wrap">
+  <h2><span class="no">06</span>3D 交互示意 · 两版可离线网页</h2>
+  <p class="sub">元宝最终产物是从对话源码重放的（artifact 直链返回腾讯文档预览壳页），已在本地真渲染核验。深色底 + WebGL，left 可拖动旋转 / 滚轮缩放，右侧浮窗 24 滑杆，v2 左下公式卡逐句对应 2002 Metatron 传导。</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>v1 · 五场传导图层版</h4>
+      <p>5 个预设：全貌 / 1998 双场正交 / 2002 量子膜 / 2017 莫比乌斯 / 2021 磁轮阵列。Three.js r128 内联，单文件离线可开，约 637 KB。</p>
+      <p class="mono" style="font-size:11.5px;color:var(--ink3)">Kryon多维磁场交互示意图_v1.html</p>
+      <a class="launch" href="Kryon_Bashar归档/Kryon多维磁场交互示意图_v1.html">打开 v1 →</a>
+    </div>
+    <div class="card">
+      <h4>v2 · 24 滑杆 + 6 公式版（推荐）</h4>
+      <p>在 v1 基础上补 2002 专属几何：穿膜同位对、null 缺口、分子级磁机阵列；公式卡含 ⟨Q⟩=0/⟨Q²⟩≠0、CPT 时间错位 δt、χε 掀开、即死条款 ∮W≤0、O(N²) 超线性、Δ_unseen 交叉项。约 649 KB。</p>
+      <p class="mono" style="font-size:11.5px;color:var(--ink3)">Kryon多维磁场交互示意图_v2.html</p>
+      <a class="launch" href="Kryon_Bashar归档/Kryon多维磁场交互示意图_v2.html">打开 v2 →</a>
+    </div>
+  </div>
+
+  <h3>元宝原版截图（实拍，已逐张看过）</h3>
+  <div class="thumbs">
+    <a href="Kryon_Bashar归档/预览图/preview_full.png"><img src="Kryon_Bashar归档/预览图/preview_full.png" alt="全貌预设"/><div class="lb">preview_full.png · 全貌</div></a>
+    <a href="Kryon_Bashar归档/预览图/preview_1998.png"><img src="Kryon_Bashar归档/预览图/preview_1998.png" alt="1998 双场正交预设"/><div class="lb">preview_1998.png · 双场正交</div></a>
+    <a href="Kryon_Bashar归档/预览图/preview_2002.png"><img src="Kryon_Bashar归档/预览图/preview_2002.png" alt="2002 量子膜预设"/><div class="lb">preview_2002.png · 量子膜 + 公式卡</div></a>
+  </div>
+
+  <div class="callout"><div class="lbl">边界（每打开一次都要看见）</div>
+    <p>这是<b>为看懂文字拓扑做的教学编译</b>，不是 Kryon 发布的图纸；图里的流动只是可视化，<b>不表示任何净能量输出</b>。公式卡里的「即死条款」：若 2030 年 MORRIS 报 α&lt;10⁻⁵、核钟报 α̇/α&lt;10⁻²¹，本编译即死。</p>
+  </div>
+
+  <h3>归档清单</h3>
+  <table>
+    <thead><tr><th>文件</th><th>内容</th><th>字节</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">Kryon_Bashar归档/元宝对话全文_Kryon_Bashar磁动机.md</td><td>9 轮正式回答（剔除 think/toolCall）</td><td class="mono">97,660</td></tr>
+      <tr><td class="mono">Kryon_Bashar归档/Kryon多维磁场交互示意图_v1.html</td><td>五图层版，Three.js 内联</td><td class="mono">637,059</td></tr>
+      <tr><td class="mono">Kryon_Bashar归档/Kryon多维磁场交互示意图_v2.html</td><td>24 滑杆 + 6 公式版</td><td class="mono">648,874</td></tr>
+      <tr><td class="mono">Kryon_Bashar归档/重建记录_A8_v1源码块.md</td><td>v1 模板与 patch 脚本逐条留痕</td><td class="mono">45,870</td></tr>
+      <tr><td class="mono">Kryon_Bashar归档/重建记录_A9_v2补丁.md</td><td>v2 全部补丁与验证脚本</td><td class="mono">23,477</td></tr>
+      <tr><td class="mono">Kryon_Bashar归档/预览图/*.png</td><td>元宝原版三张渲染截图</td><td class="mono">1,974,667</td></tr>
+    </tbody>
+  </table>
+</div></section>
+
+<footer><div class="wrap">
+  生成 2026-11-26 ｜ 依据：元宝九轮问答 <span class="mono">https://yb.tencent.com/s/jix4ceKhtrPQ</span><br>
+  关联：<a href="index.html">总入口</a> · <a href="Mini水杯工作站_专业讲解.html#seg">Mini 水杯工作站 §8 SEG（同属民间能源主张审计）</a> · <a href="EEQT专业讲解.html#bridge">EEQT 主讲解 §3 桥命题（4π 贝里相位线索）</a><br>
+  本页是审计与导航，不承载新物理主张；所有未来验证项均标窗口与判决条件，未实测不写「已」。
+</div></footer>
+
+</body>
+</html>
